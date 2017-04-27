@@ -67,6 +67,7 @@
 #ifndef __linux__
 #include <linux/platform_device.h>
 #include <linux/irq.h>
+#include <linux/pm_runtime.h>
 
 // Porting incomplete!! Omitted from build. 
 // Remove #ifdefs in intel_audio.c and add this file to Makefile to use.
@@ -129,6 +130,10 @@ lpe_audio_platdev_create(struct drm_i915_private *dev_priv)
 	}
 
 	kfree(rsc);
+
+	pm_runtime_forbid(&platdev->dev);
+	pm_runtime_set_active(&platdev->dev);
+	pm_runtime_enable(&platdev->dev);
 
 	return platdev;
 
