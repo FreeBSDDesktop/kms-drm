@@ -8,7 +8,6 @@ KMOD	= amdkfd
 #	kfd_device.c : amd_iommu 
 #	kfd_chardev.c : lots of missing stuff
 #	kfd_events.c : incomplete mm struct
-#	kfd_module.c : module version macros
 #	kfd_process.c : srcu
 #	kfd_topology.c : rwsems
 
@@ -25,6 +24,7 @@ SRCS	= \
 	kfd_kernel_queue.c \
 	kfd_kernel_queue_cik.c \
 	kfd_kernel_queue_vi.c \
+	kfd_module.c \
 	kfd_mqd_manager.c \
 	kfd_mqd_manager_cik.c \
 	kfd_mqd_manager_vi.c \

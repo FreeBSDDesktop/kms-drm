@@ -147,6 +147,6 @@ module_exit(kfd_module_exit);
 MODULE_AUTHOR(KFD_DRIVER_AUTHOR);
 MODULE_DESCRIPTION(KFD_DRIVER_DESC);
 MODULE_LICENSE("GPL and additional rights");
-MODULE_VERSION(__stringify(KFD_DRIVER_MAJOR) "."
+/* MODULE_VERSION(__stringify(KFD_DRIVER_MAJOR) "."
 	       __stringify(KFD_DRIVER_MINOR) "."
-	       __stringify(KFD_DRIVER_PATCHLEVEL));
+	       __stringify(KFD_DRIVER_PATCHLEVEL)); */
