@@ -211,3 +211,135 @@ fatal error: too many errors emitted, stopping now [-ferror-limit=]
 Stop.
 
 #########
+
+
+kfd_topology:
+
+Includes acpi functionality and misses opt_acpi.h:
+
+In file included from kfd_topology.c:27:
+In file included from /usr/ports/graphics/drm-next-kmod/work/kms-drm-fc90953/linuxkpi/gplv2/include/linux/acpi.h:32:
+In file included from /usr/src/sys/contrib/dev/acpica/include/acpi.h:164:
+In file included from /usr/src/sys/contrib/dev/acpica/include/platform/acenv.h:303:
+/usr/src/sys/contrib/dev/acpica/include/platform/acfreebsd.h:184:10: fatal error: 'opt_acpi.h' file not found
+#include "opt_acpi.h"
+         ^~~~~~~~~~~~
+1 error generated.
+
+If an empty opt_acpi.h is added:
+
+In file included from kfd_topology.c:27:
+In file included from /usr/ports/graphics/drm-next-kmod/work/kms-drm-fc90953/linuxkpi/gplv2/include/linux/acpi.h:35:
+/usr/ports/graphics/drm-next-kmod/work/kms-drm-fc90953/linuxkpi/gplv2/include/acpi/acpi_drivers.h:105:41: error: declaration of
+      'struct acpi_device' will not be visible outside of this function [-Werror,-Wvisibility]
+static inline int is_dock_device(struct acpi_device *adev)
+                                        ^
+In file included from kfd_topology.c:27:
+/usr/ports/graphics/drm-next-kmod/work/kms-drm-fc90953/linuxkpi/gplv2/include/linux/acpi.h:37:53: error: declaration of
+      'struct acpi_device' will not be visible outside of this function [-Werror,-Wvisibility]
+static inline acpi_handle acpi_device_handle(struct acpi_device *adev)
+                                                    ^
+/usr/ports/graphics/drm-next-kmod/work/kms-drm-fc90953/linuxkpi/gplv2/include/linux/acpi.h:39:20: error: incomplete definition of
+      type 'struct acpi_device'
+        return adev ? adev->handle : NULL;
+                      ~~~~^
+/usr/ports/graphics/drm-next-kmod/work/kms-drm-fc90953/linuxkpi/gplv2/include/linux/acpi.h:37:53: note: forward declaration of
+      'struct acpi_device'
+static inline acpi_handle acpi_device_handle(struct acpi_device *adev)
+                                                    ^
+/usr/ports/graphics/drm-next-kmod/work/kms-drm-fc90953/linuxkpi/gplv2/include/linux/acpi.h:61:48: error: declaration of
+      'struct acpi_device' will not be visible outside of this function [-Werror,-Wvisibility]
+static inline const char *acpi_dev_name(struct acpi_device *adev)
+                                               ^
+/usr/ports/graphics/drm-next-kmod/work/kms-drm-fc90953/linuxkpi/gplv2/include/linux/acpi.h:63:23: error: incomplete definition of
+      type 'struct acpi_device'
+        return dev_name(&adev->dev);
+                         ~~~~^
+/usr/ports/graphics/drm-next-kmod/work/kms-drm-fc90953/linuxkpi/gplv2/include/linux/acpi.h:61:48: note: forward declaration of
+      'struct acpi_device'
+static inline const char *acpi_dev_name(struct acpi_device *adev)
+                                               ^
+/usr/ports/graphics/drm-next-kmod/work/kms-drm-fc90953/linuxkpi/gplv2/include/linux/acpi.h:71:52: error: declaration of
+      'struct acpi_device' will not be visible outside of this function [-Werror,-Wvisibility]
+int acpi_bus_get_device(acpi_handle handle, struct acpi_device **device);
+                                                   ^
+kfd_topology.c:100:27: error: no member named 'length' in 'struct acpi_table_header'; did you mean 'Length'?
+        if (*size >= crat_table->length && crat_image != NULL)
+                                 ^~~~~~
+                                 Length
+/usr/src/sys/contrib/dev/acpica/include/actbl.h:216:29: note: 'Length' declared here
+    UINT32                  Length;                             /* Length of table in bytes, including this header */
+                            ^
+kfd_topology.c:101:46: error: no member named 'length' in 'struct acpi_table_header'; did you mean 'Length'?
+                memcpy(crat_image, crat_table, crat_table->length);
+                                                           ^~~~~~
+                                                           Length
+/usr/src/sys/contrib/dev/acpica/include/actbl.h:216:29: note: 'Length' declared here
+    UINT32                  Length;                             /* Length of table in bytes, including this header */
+                            ^
+kfd_topology.c:103:22: error: no member named 'length' in 'struct acpi_table_header'; did you mean 'Length'?
+        *size = crat_table->length;
+                            ^~~~~~
+                            Length
+/usr/src/sys/contrib/dev/acpica/include/actbl.h:216:29: note: 'Length' declared here
+    UINT32                  Length;                             /* Length of table in bytes, including this header */
+                            ^
+kfd_topology.c:510:5: error: format specifies type 'unsigned long long' but the argument has type 'uint64_t'
+      (aka 'unsigned long') [-Werror,-Wformat]
+                                sys_props.platform_oem);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+kfd_topology.c:492:50: note: expanded from macro 'sysfs_show_64bit_prop'
+                sysfs_show_gen_prop(buffer, "%s %llu\n", name, value)
+                                                ~~~~           ^~~~~
+kfd_topology.c:488:48: note: expanded from macro 'sysfs_show_gen_prop'
+                snprintf(buffer, PAGE_SIZE, "%s"fmt, buffer, __VA_ARGS__)
+                                                             ^~~~~~~~~~~
+kfd_topology.c:512:5: error: format specifies type 'unsigned long long' but the argument has type 'uint64_t'
+      (aka 'unsigned long') [-Werror,-Wformat]
+                                sys_props.platform_id);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+kfd_topology.c:492:50: note: expanded from macro 'sysfs_show_64bit_prop'
+                sysfs_show_gen_prop(buffer, "%s %llu\n", name, value)
+                                                ~~~~           ^~~~~
+kfd_topology.c:488:48: note: expanded from macro 'sysfs_show_gen_prop'
+                snprintf(buffer, PAGE_SIZE, "%s"fmt, buffer, __VA_ARGS__)
+                                                             ^~~~~~~~~~~
+kfd_topology.c:514:5: error: format specifies type 'unsigned long long' but the argument has type 'uint64_t'
+      (aka 'unsigned long') [-Werror,-Wformat]
+                                sys_props.platform_rev);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+kfd_topology.c:492:50: note: expanded from macro 'sysfs_show_64bit_prop'
+                sysfs_show_gen_prop(buffer, "%s %llu\n", name, value)
+                                                ~~~~           ^~~~~
+kfd_topology.c:488:48: note: expanded from macro 'sysfs_show_gen_prop'
+                snprintf(buffer, PAGE_SIZE, "%s"fmt, buffer, __VA_ARGS__)
+                                                             ^~~~~~~~~~~
+kfd_topology.c:576:49: error: format specifies type 'unsigned long long' but the argument has type 'uint64_t'
+      (aka 'unsigned long') [-Werror,-Wformat]
+        sysfs_show_64bit_prop(buffer, "size_in_bytes", mem->size_in_bytes);
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+kfd_topology.c:492:50: note: expanded from macro 'sysfs_show_64bit_prop'
+                sysfs_show_gen_prop(buffer, "%s %llu\n", name, value)
+                                                ~~~~           ^~~~~
+kfd_topology.c:488:48: note: expanded from macro 'sysfs_show_gen_prop'
+                snprintf(buffer, PAGE_SIZE, "%s"fmt, buffer, __VA_ARGS__)
+                                                             ^~~~~~~~~~~
+kfd_topology.c:714:4: error: implicit declaration of function '__ilog2_u32' is invalid in C99
+      [-Werror,-Wimplicit-function-declaration]
+                        __ilog2_u32(dev->gpu->device_info->num_of_watch_points);
+                        ^
+kfd_topology.c:714:4: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+kfd_topology.c:742:6: error: implicit declaration of function 'cpufreq_quick_get_max' is invalid in C99
+      [-Werror,-Wimplicit-function-declaration]
+                                        cpufreq_quick_get_max(0)/1000);
+                                        ^
+kfd_topology.c:742:6: note: did you mean 'cpufreq_cpu_get_raw'?
+/usr/ports/graphics/drm-next-kmod/work/kms-drm-fc90953/linuxkpi/gplv2/include/linux/cpufreq.h:42:1: note: 'cpufreq_cpu_get_raw'
+      declared here
+cpufreq_cpu_get_raw(unsigned int cpu)
+^
+kfd_topology.c:742:6: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+                                        cpufreq_quick_get_max(0)/1000);
+                                        ^
+17 errors generated.
+*** Error code 1
