@@ -1,3 +1,4 @@
+#	kfd_module.c : module version macro2
 # $FreeBSD$
 
 #.PATH:	${SYSDIR}/dev/drm/amd/amdkfd
@@ -7,7 +8,6 @@ KMOD	= amdkfd
 # XXX NOT PORTED YET:
 #	kfd_device.c : amd_iommu 
 #	kfd_chardev.c : lots of missing stuff
-#	kfd_events.c : incomplete mm struct
 #	kfd_process.c : srcu
 #	kfd_topology.c : rwsems
 
@@ -19,6 +19,7 @@ SRCS	= \
 	kfd_device_queue_manager_cik.c \
 	kfd_device_queue_manager_vi.c \
 	kfd_doorbell.c \
+	kfd_events.c \
 	kfd_flat_memory.c \
 	kfd_interrupt.c \
 	kfd_kernel_queue.c \
