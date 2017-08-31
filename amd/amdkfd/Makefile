@@ -7,8 +7,6 @@ KMOD	= amdkfd
 # XXX NOT PORTED YET:
 #	kfd_device.c : amd_iommu 
 #	kfd_chardev.c : lots of missing stuff
-#	kfd_device_queue_manager_cik.c : memset declaration missing in rwsem
-#	kfd_device_queue_manager_vi.c : memset declaration missing in rwsem
 #	kfd_events.c : incomplete mm struct
 #	kfd_module.c : module version macros
 #	kfd_process.c : srcu
@@ -19,6 +17,8 @@ SRCS	= \
 	kfd_dbgdev.c \
 	kfd_dbgmgr.c \
 	kfd_device_queue_manager.c \
+	kfd_device_queue_manager_cik.c \
+	kfd_device_queue_manager_vi.c \
 	kfd_doorbell.c \
 	kfd_flat_memory.c \
 	kfd_interrupt.c \
