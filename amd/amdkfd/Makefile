@@ -11,8 +11,6 @@ KMOD	= amdkfd
 #	kfd_device_queue_manager_vi.c : memset declaration missing in rwsem
 #	kfd_events.c : incomplete mm struct
 #	kfd_module.c : module version macros
-#	kfd_mqd_manager_cik.c : we seem to be missing an include w/ basic types
-#	kfd_mqd_manager_vi.c : we seem to be missing an include w/ basic types
 #	kfd_process.c : srcu
 #	kfd_topology.c : rwsems
 
@@ -28,6 +26,8 @@ SRCS	= \
 	kfd_kernel_queue_cik.c \
 	kfd_kernel_queue_vi.c \
 	kfd_mqd_manager.c \
+	kfd_mqd_manager_cik.c \
+	kfd_mqd_manager_vi.c \
 	kfd_packet_manager.c \
 	kfd_pasid.c \
 	kfd_process_queue_manager.c \
