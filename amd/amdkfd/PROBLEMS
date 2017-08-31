@@ -145,3 +145,69 @@ fatal error: too many errors emitted, stopping now [-ferror-limit=]
 
 ########
 
+kfd_process:
+
+kfd_process.c:51:1: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
+DEFINE_STATIC_SRCU(kfd_processes_srcu);
+^
+kfd_process.c:51:20: error: a parameter list without types is only allowed in a function definition
+DEFINE_STATIC_SRCU(kfd_processes_srcu);
+                   ^
+kfd_process.c:87:14: error: no member named 'group_leader' in 'struct task_struct'
+        if (thread->group_leader->mm != thread->mm)
+            ~~~~~~  ^
+kfd_process.c:123:14: error: no member named 'group_leader' in 'struct task_struct'
+        if (thread->group_leader->mm != thread->mm)
+            ~~~~~~  ^
+kfd_process.c:148:8: error: implicit declaration of function 'srcu_read_lock' is invalid in C99
+      [-Werror,-Wimplicit-function-declaration]
+        idx = srcu_read_lock(&kfd_processes_srcu);
+              ^
+kfd_process.c:148:8: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+kfd_process.c:148:24: error: use of undeclared identifier 'kfd_processes_srcu'
+        idx = srcu_read_lock(&kfd_processes_srcu);
+                              ^
+kfd_process.c:150:2: error: implicit declaration of function 'srcu_read_unlock' is invalid in C99
+      [-Werror,-Wimplicit-function-declaration]
+        srcu_read_unlock(&kfd_processes_srcu, idx);
+        ^
+kfd_process.c:150:2: note: did you mean 'srcu_read_lock'?
+kfd_process.c:148:8: note: 'srcu_read_lock' declared here
+        idx = srcu_read_lock(&kfd_processes_srcu);
+              ^
+kfd_process.c:150:2: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+        srcu_read_unlock(&kfd_processes_srcu, idx);
+        ^
+kfd_process.c:150:20: error: use of undeclared identifier 'kfd_processes_srcu'
+        srcu_read_unlock(&kfd_processes_srcu, idx);
+                          ^
+kfd_process.c:178:3: error: implicit declaration of function 'amd_iommu_unbind_pasid' is invalid in C99
+      [-Werror,-Wimplicit-function-declaration]
+                amd_iommu_unbind_pasid(pdd->dev->pdev, p->pasid);
+                ^
+kfd_process.c:178:3: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+kfd_process.c:236:2: error: implicit declaration of function 'synchronize_srcu' is invalid in C99
+      [-Werror,-Wimplicit-function-declaration]
+        synchronize_srcu(&kfd_processes_srcu);
+        ^
+kfd_process.c:236:2: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+kfd_process.c:236:20: error: use of undeclared identifier 'kfd_processes_srcu'
+        synchronize_srcu(&kfd_processes_srcu);
+                          ^
+kfd_process.c:266:2: error: implicit declaration of function 'mmu_notifier_unregister_no_release' is invalid in C99
+      [-Werror,-Wimplicit-function-declaration]
+        mmu_notifier_unregister_no_release(&p->mmu_notifier, p->mm);
+        ^
+kfd_process.c:266:2: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+kfd_process.c:267:2: error: implicit declaration of function 'mmu_notifier_call_srcu' is invalid in C99
+      [-Werror,-Wimplicit-function-declaration]
+        mmu_notifier_call_srcu(&p->rcu, &kfd_process_destroy_delayed);
+        ^
+kfd_process.c:267:2: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.
+*** Error code 1
+
+Stop.
+
+#########
