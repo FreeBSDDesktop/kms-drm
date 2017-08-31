@@ -1,0 +1,49 @@
+kfd_device:
+
+kfd_device.c:139:35: error: use of undeclared identifier 'AMD_IOMMU_DEVICE_FLAG_ATS_SUP'
+        const u32 required_iommu_flags = AMD_IOMMU_DEVICE_FLAG_ATS_SUP |
+                                         ^
+kfd_device.c:140:6: error: use of undeclared identifier 'AMD_IOMMU_DEVICE_FLAG_PRI_SUP'
+                                        AMD_IOMMU_DEVICE_FLAG_PRI_SUP |
+                                        ^
+kfd_device.c:141:6: error: use of undeclared identifier 'AMD_IOMMU_DEVICE_FLAG_PASID_SUP'
+                                        AMD_IOMMU_DEVICE_FLAG_PASID_SUP;
+                                        ^
+kfd_device.c:143:31: error: variable has incomplete type 'struct amd_iommu_device_info'
+        struct amd_iommu_device_info iommu_info;
+                                     ^
+kfd_device.c:143:9: note: forward declaration of 'struct amd_iommu_device_info'
+        struct amd_iommu_device_info iommu_info;
+               ^
+kfd_device.c:147:8: error: implicit declaration of function 'amd_iommu_device_info' is invalid in C99
+      [-Werror,-Wimplicit-function-declaration]
+        err = amd_iommu_device_info(kfd->pdev, &iommu_info);
+              ^
+kfd_device.c:147:8: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+kfd_device.c:156:30: error: use of undeclared identifier 'AMD_IOMMU_DEVICE_FLAG_ATS_SUP'
+                       (iommu_info.flags & AMD_IOMMU_DEVICE_FLAG_ATS_SUP) != 0,
+                                           ^
+kfd_device.c:157:30: error: use of undeclared identifier 'AMD_IOMMU_DEVICE_FLAG_PRI_SUP'
+                       (iommu_info.flags & AMD_IOMMU_DEVICE_FLAG_PRI_SUP) != 0,
+                                           ^
+kfd_device.c:158:30: error: use of undeclared identifier 'AMD_IOMMU_DEVICE_FLAG_PASID_SUP'
+                       (iommu_info.flags & AMD_IOMMU_DEVICE_FLAG_PASID_SUP) != 0);
+                                           ^
+kfd_device.c:173:8: error: implicit declaration of function 'amd_iommu_init_device' is invalid in C99
+      [-Werror,-Wimplicit-function-declaration]
+        err = amd_iommu_init_device(kfd->pdev, pasid_limit);
+              ^
+kfd_device.c:173:8: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+kfd_device.c:181:3: error: implicit declaration of function 'amd_iommu_free_device' is invalid in C99
+      [-Werror,-Wimplicit-function-declaration]
+                amd_iommu_free_device(kfd->pdev);
+                ^
+kfd_device.c:181:3: note: did you mean 'amd_iommu_init_device'?
+kfd_device.c:173:8: note: 'amd_iommu_init_device' declared here
+        err = amd_iommu_init_device(kfd->pdev, pasid_limit);
+              ^
+kfd_device.c:181:3: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+                amd_iommu_free_device(kfd->pdev);
+
+
+
