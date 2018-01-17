@@ -118,5 +118,11 @@
 
 long radeon_drm_ioctl(struct file *filp,
 		      unsigned int cmd, unsigned long arg);
+#ifdef CONFIG_COMPAT
+extern long radeon_compat_ioctl(struct file *filp, unsigned int cmd,
+						unsigned long arg);
+extern long radeon_kms_compat_ioctl(struct file *filp, unsigned int cmd,
+						unsigned long arg);
+#endif
 
 #endif				/* __RADEON_DRV_H__ */

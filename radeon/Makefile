@@ -63,6 +63,7 @@ SRCS=	atom.c \
 	radeon_gem.c \
 	radeon_i2c.c \
 	radeon_ib.c \
+	radeon_ioc32.c \
 	radeon_irq_kms.c \
 	radeon_kfd.c \
 	radeon_kms.c \
