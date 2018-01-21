@@ -95,9 +95,8 @@ out_unlock:
 	return ret;
 }
 
-static int ttm_bo_vm_fault(struct vm_fault *vmf)
+static int ttm_bo_vm_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 {
-	struct vm_area_struct *vma = vmf->vma;
 	struct ttm_buffer_object *bo = (struct ttm_buffer_object *)
 	    vma->vm_private_data;
 	struct ttm_bo_device *bdev = bo->bdev;
@@ -108,7 +107,7 @@ static int ttm_bo_vm_fault(struct vm_fault *vmf)
 	struct page *page;
 	int ret;
 	int i;
-	unsigned long address = vmf->address;
+	unsigned long address = (unsigned long)vmf->virtual_address;
 	int retval = VM_FAULT_NOPAGE;
 	struct ttm_mem_type_manager *man =
 		&bdev->man[bo->mem.mem_type];
@@ -130,7 +129,7 @@ static int ttm_bo_vm_fault(struct vm_fault *vmf)
 				ttm_bo_reference(bo);
 #ifndef __FreeBSD__
 				/* On FreeBSD we're not holding locks here. */
-				up_read(&vmf->vma->vm_mm->mmap_sem);
+				up_read(&vma->vm_mm->mmap_sem);
 #endif
 				(void) ttm_bo_wait_unreserved(bo);
 				ttm_bo_unref(&bo);

@@ -137,6 +137,7 @@ SRCS=	amdgpu_acpi.c \
 
 CFLAGS+= -I${.CURDIR:H:H}/linuxkpi/dummy/include
 CFLAGS+= -I${.CURDIR:H:H}/linuxkpi/gplv2/include
+CFLAGS+= -I${.CURDIR:H:H}/linuxkpi/gplv2/arch/${MACHINE}/include
 CFLAGS+= -I${SYSDIR}/compat/linuxkpi/common/include
 
 CFLAGS+= -I${.CURDIR:H:H}/include

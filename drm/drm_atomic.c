@@ -510,7 +510,8 @@ int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
 		if (!fence_ptr)
 			return 0;
 
-		if (put_user(-1, fence_ptr))
+		int err = -1;
+		if (put_user(err, fence_ptr))
 			return -EFAULT;
 
 		set_out_fence_for_crtc(state->state, crtc, fence_ptr);
@@ -2041,8 +2042,9 @@ static void complete_crtc_signaling(struct drm_device *dev,
 			put_unused_fd(fence_state[i].fd);
 
 		/* If this fails log error to the user */
+		int err = -1;
 		if (fence_state[i].out_fence_ptr &&
-		    put_user(-1, fence_state[i].out_fence_ptr))
+		    put_user(err, fence_state[i].out_fence_ptr))
 			DRM_DEBUG_ATOMIC("Couldn't clear out_fence_ptr\n");
 	}
 

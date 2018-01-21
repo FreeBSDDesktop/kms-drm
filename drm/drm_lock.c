@@ -44,6 +44,33 @@ __FBSDID("$FreeBSD$");
 #include "drm_legacy.h"
 #include "drm_internal.h"
 
+#ifdef __aarch64__
+#undef cmpxchg
+#define	cmpxchg(ptr, old, new) ({				\
+	__typeof(*(ptr)) __ret;					\
+								\
+	CTASSERT(sizeof(__ret) == 1 || sizeof(__ret) == 2 ||	\
+	    sizeof(__ret) == 4 || sizeof(__ret) == 8);		\
+								\
+	__ret = (old);						\
+	switch (sizeof(__ret)) {				\
+	case 4:							\
+		while (!atomic_fcmpset_32((volatile int32_t *)(ptr), \
+		    (int32_t *)&__ret, (new)) && __ret == (old)) \
+			;					\
+		break;						\
+	case 8:							\
+		while (!atomic_fcmpset_64((volatile int64_t *)(ptr), \
+		    (int64_t *)&__ret, (new)) && __ret == (old)) \
+			;					\
+		break;						\
+	}							\
+	__ret;							\
+})
+
+
+#endif
+
 static int drm_lock_take(struct drm_lock_data *lock_data, unsigned int context);
 
 /**

@@ -18,7 +18,7 @@
 #if defined(__i386__) || defined(__amd64__)
 #define NR_IRQS	512 /* XXX need correct value */
 #else
-#error "NR_IRQS not defined"
+#define NR_IRQS	64
 #endif
 
 #define IRQ_BITMAP_BITS	NR_IRQS

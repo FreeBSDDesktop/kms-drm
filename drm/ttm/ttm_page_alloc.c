@@ -216,7 +216,7 @@ static struct kobj_type ttm_pool_kobj_type = {
 
 static struct ttm_pool_manager *_manager;
 
-#ifndef CONFIG_X86
+#if 0
 static int set_pages_array_wb(struct page **pages, int addrinarray)
 {
 #if IS_ENABLED(CONFIG_AGP)

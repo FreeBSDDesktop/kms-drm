@@ -679,6 +679,19 @@ void drm_mm_scan_init_with_range(struct drm_mm_scan *scan,
 }
 EXPORT_SYMBOL(drm_mm_scan_init_with_range);
 
+static inline bool __list_del_entry_valid(struct list_head *entry)
+{
+	return true;
+}
+
+static inline void __list_del_entry(struct list_head *entry)
+{
+	if (!__list_del_entry_valid(entry))
+		return;
+
+	__list_del(entry->prev, entry->next);
+}
+
 /**
  * drm_mm_scan_add_block - add a node to the scan list
  * @scan: the active drm_mm scanner

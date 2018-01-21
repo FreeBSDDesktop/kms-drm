@@ -28,7 +28,7 @@
 #define _DRM_DRV_H_
 
 #include <linux/list.h>
-#include <linux/irqreturn.h>
+#include <linux/irq.h>
 
 struct drm_device;
 struct drm_file;
