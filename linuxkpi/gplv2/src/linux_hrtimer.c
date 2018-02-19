@@ -102,7 +102,7 @@ linux_hrtimer_start_range_ns(struct hrtimer *hrtimer, ktime_t time, long nsec)
 {
 
 	mtx_lock(&hrtimer->mtx);
-	callout_reset_sbt(&hrtimer->callout, time.tv64 * SBT_1NS,
+	callout_reset_sbt(&hrtimer->callout, ktime_to_ns(time) * SBT_1NS,
 	    nsec * SBT_1NS, hrtimer_call_handler, hrtimer, 0);
 	hrtimer->flags |= HRTIMER_ACTIVE;
 	mtx_unlock(&hrtimer->mtx);
