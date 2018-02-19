@@ -35,6 +35,12 @@
 #include "radeon_drv.h"
 
 #ifdef CONFIG_COMPAT
+
+#define	put_user32(x,p) ({ \
+	CTASSERT(sizeof(x) == 4 && sizeof(*(p)) == 8); \
+	__put_user((u64)(x), (u64 *)(p)); \
+})
+
 typedef struct drm_radeon_init32 {
 	int func;
 	u32 sarea_priv_offset;
@@ -117,7 +123,7 @@ static int compat_radeon_cp_clear(struct file *file, unsigned int cmd,
 	    || put_user(clr32.clear_depth, &clr->clear_depth)
 	    || put_user(clr32.color_mask, &clr->color_mask)
 	    || put_user(clr32.depth_mask, &clr->depth_mask)
-	    || put_user(clr32.depth_boxes,
+	    || put_user32(clr32.depth_boxes,
 			  &clr->depth_boxes))
 		return -EFAULT;
 
@@ -138,7 +144,7 @@ static int compat_radeon_cp_stipple(struct file *file, unsigned int cmd,
 	if (get_user(mask, &argp->mask))
 		return -EFAULT;
 
-	if (put_user(mask, &request->mask))
+	if (put_user32(mask, &request->mask))
 		return -EFAULT;
 
 	return drm_ioctl(file, DRM_IOCTL_RADEON_STIPPLE, (unsigned long)request);
@@ -182,7 +188,7 @@ static int compat_radeon_cp_texture(struct file *file, unsigned int cmd,
 	    || put_user(img32.y, &image->y)
 	    || put_user(img32.width, &image->width)
 	    || put_user(img32.height, &image->height)
-	    || put_user(img32.data, &image->data))
+	    || put_user32(img32.data, &image->data))
 		return -EFAULT;
 
 	return drm_ioctl(file, DRM_IOCTL_RADEON_TEXTURE, (unsigned long)request);
@@ -206,9 +212,9 @@ static int compat_radeon_cp_vertex2(struct file *file, unsigned int cmd,
 	if (put_user(req32.idx, &request->idx)
 	    || put_user(req32.discard, &request->discard)
 	    || put_user(req32.nr_states, &request->nr_states)
-	    || put_user(req32.state, &request->state)
+	    || put_user32(req32.state, &request->state)
 	    || put_user(req32.nr_prims, &request->nr_prims)
-	    || put_user(req32.prim, &request->prim))
+	    || put_user32(req32.prim, &request->prim))
 		return -EFAULT;
 
 	return drm_ioctl(file, DRM_IOCTL_RADEON_VERTEX2, (unsigned long)request);
@@ -228,9 +234,9 @@ static int compat_radeon_cp_cmdbuf(struct file *file, unsigned int cmd,
 	drm_radeon_cmd_buffer_t __user *request = (void __user *)arg;
 
 	if (put_user(req32.bufsz, &request->bufsz)
-	    || put_user(req32.buf, &request->buf)
+	    || put_user32(req32.buf, &request->buf)
 	    || put_user(req32.nbox, &request->nbox)
-	    || put_user(req32.boxes, &request->boxes))
+	    || put_user32(req32.boxes, &request->boxes))
 		return -EFAULT;
 
 	return drm_ioctl(file, DRM_IOCTL_RADEON_CMDBUF, (unsigned long)request);
@@ -248,7 +254,7 @@ static int compat_radeon_cp_getparam(struct file *file, unsigned int cmd,
 	drm_radeon_getparam_t __user *request = (void __user *)arg;
 
 	if (put_user(req32.param, &request->param)
-	    || put_user(req32.value, &request->value))
+	    || put_user32(req32.value, &request->value))
 		return -EFAULT;
 
 	return drm_ioctl(file, DRM_IOCTL_RADEON_GETPARAM, (unsigned long)request);
@@ -270,7 +276,7 @@ static int compat_radeon_mem_alloc(struct file *file, unsigned int cmd,
 	if (put_user(req32.region, &request->region)
 	    || put_user(req32.alignment, &request->alignment)
 	    || put_user(req32.size, &request->size)
-	    || put_user(req32.region_offset, &request->region_offset))
+	    || put_user32(req32.region_offset, &request->region_offset))
 		return -EFAULT;
 
 	return drm_ioctl(file, DRM_IOCTL_RADEON_ALLOC, (unsigned long)request);
@@ -286,7 +292,7 @@ static int compat_radeon_irq_emit(struct file *file, unsigned int cmd,
 	drm_radeon_irq_emit32_t req32;
 	drm_radeon_irq_emit_t __user *request = (void __user *)arg;
 
-	if (put_user(req32.irq_seq, &request->irq_seq))
+	if (put_user32(req32.irq_seq, &request->irq_seq))
 		return -EFAULT;
 
 	return drm_ioctl(file, DRM_IOCTL_RADEON_IRQ_EMIT, (unsigned long)request);
