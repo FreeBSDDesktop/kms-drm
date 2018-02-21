@@ -1,5 +1,7 @@
 *.[oa]
 TAGS
+patches
+patches_path_fix.sh
 drm/x86
 i915/x86
 lindebugfs/x86
