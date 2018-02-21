@@ -47,6 +47,7 @@
 
 #define CONFIG_DRM_AMD_POWERPLAY 1
 #define CONFIG_DRM_AMDGPU_SI 1
+#define CONFIG_DRM_AMDGPU_CIK 1
 #define CONFIG_PM 1
 
 #endif
