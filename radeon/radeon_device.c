@@ -1461,33 +1461,16 @@ int radeon_device_init(struct radeon_device *rdev,
 	if (rdev->family >= CHIP_BONAIRE)
 		radeon_doorbell_init(rdev);
 
-#ifdef __FreeBSD__
-#define	DEVICE_COUNT_RESOURCE	5
-#endif
-
+#ifdef __linux__
 	/* io port mapping */
 	for (i = 0; i < DEVICE_COUNT_RESOURCE; i++) {
 		if (pci_resource_flags(rdev->pdev, i) & IORESOURCE_IO) {
-#ifdef __FreeBSD__
-			struct resource *res;
-			int rid;
-
-			rid = PCIR_BAR(i);
-			res = bus_alloc_resource_any(rdev->pdev->dev.bsddev,
-			    SYS_RES_IOPORT, &rid, RF_ACTIVE);
-			ddev->drm_pcir[i].res = res;
-			ddev->drm_pcir[i].rid = rid;
-
-			rdev->rio_mem = (void *)rman_get_bushandle(res);
-			rdev->rio_mem_size = rman_get_size(res);
-			rdev->rio_rid = i;
-#else
 			rdev->rio_mem_size = pci_resource_len(rdev->pdev, i);
 			rdev->rio_mem = pci_iomap(rdev->pdev, i, rdev->rio_mem_size);
-#endif
 			break;
 		}
 	}
+#endif
 	if (rdev->rio_mem == NULL)
 		DRM_ERROR("Unable to find PCI I/O BAR\n");
 
@@ -1600,16 +1583,7 @@ void radeon_device_fini(struct radeon_device *rdev)
 	if (rdev->flags & RADEON_IS_PX)
 		vga_switcheroo_fini_domain_pm_ops(rdev->dev);
 	vga_client_register(rdev->pdev, NULL, NULL, NULL);
-#ifdef __FreeBSD__
-	if (rdev->rio_mem) {
-		int rid;
-
-		rid = rdev->rio_rid;
-		/* XXX check for error */
-		bus_release_resource(rdev->pdev->dev.bsddev, SYS_RES_IOPORT,
-		    rid, rdev->ddev->drm_pcir[rid].res);
-	}
-#else
+#ifdef __linux__
 	if (rdev->rio_mem)
 		pci_iounmap(rdev->pdev, rdev->rio_mem);
 #endif
