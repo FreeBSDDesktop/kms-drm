@@ -34,20 +34,6 @@ Code style and rules same as FreeBSD kernel. If a GPL'd file is copy-paste from 
 
 
 
-## Development branches
-For testing the 4.12 development branch please use 
-
-#### FreeBSD 12-CURRENT
-Needed for changes in non-gplv2 part of linuxkpi.  
-https://github.com/FreeBSDDesktop/freebsd-base-graphics/tree/drm-v4.12-WIP
-
-
-#### Kernel Modules
-https://github.com/FreeBSDDesktop/kms-drm/tree/drm-v4.12-WIP
-
-#### GPU Firmware 
-https://github.com/FreeBSDDesktop/kms-firmware (or `pkg install gpu-firmware-kmod`)
-
-### Known bugs
-
-
+## Testing
+For testing work in progress branches please see the wiki:  
+https://github.com/FreeBSDDesktop/kms-drm/wiki/Testing  
