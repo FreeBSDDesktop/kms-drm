@@ -16,6 +16,7 @@ SRCS=	amdgpu_acpi.c \
 	amdgpu_amdkfd_gfx_v7.c \
 	amdgpu_amdkfd_gfx_v8.c \
 	amdgpu_atombios.c \
+	amdgpu_atomfirmware.c \
 	amdgpu_atpx_handler.c \
 	amdgpu_benchmark.c \
 	amdgpu_bios.c \
@@ -48,6 +49,7 @@ SRCS=	amdgpu_acpi.c \
 	amdgpu_pm.c \
 	amdgpu_powerplay.c \
 	amdgpu_prime.c \
+	amdgpu_psp.c \
 	amdgpu_ring.c \
 	amdgpu_sa.c \
 	amdgpu_sync.c \
@@ -108,15 +110,18 @@ SRCS=	amdgpu_acpi.c \
 	kv_smc.c \
 	nbio_v6_1.c \
 	mmhub_v1_0.c \
+	mxgpu_ai.c \
 	mxgpu_vi.c \
 	polaris10_smc.c \
 	polaris10_smumgr.c \
 	pp_acpi.c \
 	ppatomctrl.c \
+	ppatomfwctrl.c \
 	pppcielanes.c \
 	processpptables.c \
 	process_pptables_v1_0.c \
 	psm.c \
+	psp_v3_1.c \
 	sched_fence.c \
 	sdma_v2_4.c \
 	sdma_v3_0.c \
@@ -132,15 +137,19 @@ SRCS=	amdgpu_acpi.c \
 	smu7_powertune.c \
 	smu7_smumgr.c \
 	smu7_thermal.c \
+	soc15.c \
 	tonga_ih.c \
 	tonga_smumgr.c \
 	tonga_smumgr_smc.c \
 	uvd_v4_2.c \
 	uvd_v5_0.c \
 	uvd_v6_0.c \
+	uvd_v7_0.c \
 	vce_v2_0.c \
 	vce_v3_0.c \
+	vce_v4_0.c \
 	vega10_hwmgr.c \
+	vega10_ih.c \
 	vega10_powertune.c \
 	vega10_processpptables.c \
 	vega10_smumgr.c \
@@ -238,18 +247,22 @@ CWARNFLAGS.polaris10_smumgr.c=	-Wno-missing-prototypes -Wno-cast-qual
 CWARNFLAGS.polaris10_thermal.c=	-Wno-missing-prototypes
 CWARNFLAGS.pp_acpi.c=	-Wno-missing-prototypes 
 CWARNFLAGS.ppatomctrl.c=	-Wno-missing-prototypes -Wno-cast-qual
+CWARNFLAGS.ppatomfwctrl.c=	-Wno-cast-qual
 CWARNFLAGS.processpptables.c=	-Wno-missing-prototypes -Wno-sometimes-uninitialized
 CWARNFLAGS.process_pptables_v1_0.c=	-Wno-missing-prototypes -Wno-cast-qual
+CWARNFLAGS.psp_v3_1.c=	-Wno-cast-qual
 CWARNFLAGS.sdma_v3_0.c=		-Wno-missing-prototypes
 CWARNFLAGS.sdma_v4_0.c=		-Wno-missing-prototypes -Wno-cast-qual -Wno-sometimes-uninitialized
 CWARNFLAGS.si.c=		-Wno-missing-prototypes
 CWARNFLAGS.smu7_clockpowergating.c=		-Wno-missing-prototypes -Wno-enum-conversion
 CWARNFLAGS.smu7_hwmgr.c=		-Wno-missing-prototypes  -Wno-cast-qual
+CWARNFLAGS.soc15.c=		-Wno-missing-prototypes
 CWARNFLAGS.tonga_clockpowergating.c=	-Wno-missing-prototypes -Wno-enum-conversion
 CWARNFLAGS.tonga_hwmgr.c=	-Wno-missing-prototypes -Wno-cast-qual -Wno-unused-const-variable
 CWARNFLAGS.tonga_smumgr.c=	-Wno-missing-prototypes -Wno-cast-qual
 CWARNFLAGS.tonga_smumgr_smc.c=	-Wno-parentheses-equality
 CWARNFLAGS.tonga_thermal.c=	-Wno-missing-prototypes
+CWARNFLAGS.uvd_v7_0.c=	-Wno-missing-prototypes
 CWARNFLAGS.vega10_hwmgr.c=	-Wno-missing-prototypes -Wno-sometimes-uninitialized
 CWARNFLAGS.vega10_processpptables.c= -Wno-missing-prototypes -Wno-cast-qual
 CWARNFLAGS.vega10_smumgr.c=	-Wno-missing-prototypes
