@@ -263,6 +263,7 @@ CWARNFLAGS.tonga_hwmgr.c=	-Wno-missing-prototypes -Wno-cast-qual -Wno-unused-con
 CWARNFLAGS.tonga_smumgr.c=	-Wno-missing-prototypes -Wno-cast-qual
 CWARNFLAGS.tonga_smumgr_smc.c=	-Wno-parentheses-equality
 CWARNFLAGS.tonga_thermal.c=	-Wno-missing-prototypes
+CWARNFLAGS.uvd_v7_0.c=	-Wno-missing-prototypes
 CWARNFLAGS.vega10_hwmgr.c=	-Wno-missing-prototypes -Wno-sometimes-uninitialized
 CWARNFLAGS.vega10_processpptables.c= -Wno-missing-prototypes -Wno-cast-qual
 CWARNFLAGS.vega10_smumgr.c=	-Wno-missing-prototypes
