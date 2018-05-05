@@ -235,7 +235,7 @@ anon_inodefs_uninit(PFS_INIT_ARGS)
 // https://reviews.freebsd.org/D14681
 // XXX: Remove temporary ifdefs when possible
 #ifdef PR_ALLOW_MOUNT_LINSYSFS
-PSEUDOFS(anon_inodefs, 1, PR_ALLOW_MOUNT_MOUNT_LINSYSFS);
+PSEUDOFS(anon_inodefs, 1, PR_ALLOW_MOUNT_LINSYSFS);
 #else
 PSEUDOFS(anon_inodefs, 1, VFCF_JAIL);
 #endif
