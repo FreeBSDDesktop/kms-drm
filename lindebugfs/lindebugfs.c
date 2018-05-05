@@ -204,6 +204,13 @@ debugfs_uninit(PFS_INIT_ARGS)
 	return (0);
 }
 
+// PR_ALLOW_MOUNT_* removed from 20180505
+// https://reviews.freebsd.org/D14681
+// XXX: Remove temporary ifdefs when possible
+#ifdef PR_ALLOW_MOUNT_LINSYSFS
 PSEUDOFS(debugfs, 1, PR_ALLOW_MOUNT_LINSYSFS);
+#else
+PSEUDOFS(debugfs, 1, VFCF_JAIL);
+#endif
 MODULE_DEPEND(debugfs, linuxkpi, 1, 1, 1);
 MODULE_DEPEND(debugfs, linuxkpi_gplv2, 1, 1, 1);
