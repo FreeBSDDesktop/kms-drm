@@ -33,6 +33,7 @@ uint32_t intel_gtt_read_pte(unsigned int entry);
 
 #define WARN_UN() log(LOG_WARNING, "%s unimplemented", __FUNCTION__)
 
+#ifdef __notyet__
 static struct _intel_private {
 	struct pci_dev *bridge_dev;
 	u8 __iomem *registers;
@@ -40,10 +41,12 @@ static struct _intel_private {
 	int gen;
 	phys_addr_t gma_bus_addr;
 } intel_private;
+#endif
 
 bool
 intel_enable_gtt(void)
 {
+#ifdef __notyet__
 	u8 __iomem *reg;
 
 	DRM_DEBUG("entering %s\n", __func__);
@@ -90,6 +93,7 @@ intel_enable_gtt(void)
 	if (INTEL_GTT_GEN >= 3)
 		writel(0, intel_private.registers + GFX_FLSH_CNTL_BSD);
 	DRM_DEBUG("exiting %s\n", __func__);
+#endif
 	return (1);
 }
 
@@ -97,6 +101,7 @@ int
 intel_gmch_probe(struct pci_dev *bridge_pdev, struct pci_dev *gpu_pdev,
 		 struct agp_bridge_data *bridge)
 {
+#ifdef __notyet__
 	DRM_DEBUG("entering %s\n", __func__);
 	intel_private.registers = NULL; //intel_gtt_get_registers();
 	intel_private.gma_bus_addr = pci_bus_address(gpu_pdev, I915_GMADR_BAR);
@@ -111,6 +116,7 @@ intel_gmch_probe(struct pci_dev *bridge_pdev, struct pci_dev *gpu_pdev,
 		intel_private.PGTBL_save |= AGP_I810_PGTBL_ENABLED;
 
 	DRM_DEBUG("exiting %s\n", __func__);
+#endif
 	return (1);
 }
 
