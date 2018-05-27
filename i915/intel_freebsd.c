@@ -67,25 +67,25 @@ intel_enable_gtt(void)
 			return false;
 		}
 	}
-#endif	
+#endif
 
 	/*
 	 * On the resume path we may be adjusting the PGTBL value, so
 	 * be paranoid and flush all chipset write buffers...
 	 */
 	if (INTEL_GTT_GEN >= 3)
-		writel(0, intel_private.registers+ GFX_FLSH_CNTL_BSD);
+		writel(0, intel_private.registers + GFX_FLSH_CNTL_BSD);
 
 	reg = intel_private.registers + AGP_I810_PGTBL_CTL;
 	writel(intel_private.PGTBL_save, reg);
-#ifdef __notyet	
+#ifdef __notyet__
 	if (HAS_PGTBL_EN && (readl(reg) & AGP_I810_PGTBL_ENABLED) == 0) {
 		dev_err(&intel_private.pcidev->dev,
 			"failed to enable the GTT: PGTBL=%x [expected %x]\n",
 			readl(reg), intel_private.PGTBL_save);
 		return false;
 	}
-#endif	
+#endif
 
 	if (INTEL_GTT_GEN >= 3)
 		writel(0, intel_private.registers + GFX_FLSH_CNTL_BSD);
