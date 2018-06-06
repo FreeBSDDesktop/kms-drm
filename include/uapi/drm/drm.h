@@ -38,6 +38,7 @@
 
 #if defined(__KERNEL__)
 
+#include <sys/param.h>
 #include <linux/types.h>
 #include <asm/ioctl.h>
 typedef unsigned int drm_handle_t;
@@ -50,6 +51,7 @@ typedef unsigned int drm_handle_t;
 
 #else /* One of the BSDs */
 
+#include <sys/param.h>
 #include <sys/ioccom.h>
 #include <sys/types.h>
 #if 0
@@ -62,7 +64,11 @@ typedef uint32_t __u32;
 typedef int64_t  __s64;
 typedef uint64_t __u64;
 #endif
+
+#if __FreeBSD_version < 1200066
 typedef size_t   __kernel_size_t;
+#endif
+
 typedef unsigned long drm_handle_t;
 #include <drm/drm_os_freebsd.h>
 #endif
