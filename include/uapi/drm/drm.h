@@ -65,7 +65,7 @@ typedef int64_t  __s64;
 typedef uint64_t __u64;
 #endif
 
-#if __FreeBSD_version < 1200066
+#if (__FreeBSD_version >= 1200000 && __FreeBSD_version < 1200066) || __FreeBSD_version < 1102501
 typedef size_t   __kernel_size_t;
 #endif
 
