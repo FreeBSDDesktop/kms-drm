@@ -37,6 +37,7 @@ SRCS	= \
 #	kfd_topology.c
 
 CFLAGS+= -I${.CURDIR:H:H}/linuxkpi/gplv2/include
+CFLAGS+= -I${.CURDIR:H:H}/linuxkpi/gplv2/arch/${MACHINE_CPUARCH}/include
 CFLAGS+= -I${SYSDIR}/compat/linuxkpi/common/include
 CFLAGS+= -I${.CURDIR:H:H}/linuxkpi/dummy/include
 

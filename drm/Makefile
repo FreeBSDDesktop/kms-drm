@@ -98,6 +98,7 @@ SRCS+=	gpu_scheduler.c \
 	sched_fence.c
 
 CFLAGS+= -I${.CURDIR:H}/linuxkpi/gplv2/include
+CFLAGS+= -I${.CURDIR:H}/linuxkpi/gplv2/arch/${MACHINE_CPUARCH}/include
 CFLAGS+= -I${SYSDIR}/compat/linuxkpi/common/include
 CFLAGS+= -I${.CURDIR:H}/linuxkpi/dummy/include # fallback to dummy
 CFLAGS+= -I${SRCDIR}
