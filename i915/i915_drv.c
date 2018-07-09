@@ -1581,6 +1581,7 @@ static int i915_drm_suspend_late(struct drm_device *dev, bool hibernation)
 	disable_rpm_wakeref_asserts(dev_priv);
 
 	intel_display_set_init_power(dev_priv, false);
+	i915_rc6_ctx_wa_suspend(dev_priv);
 
 	fw_csr = !IS_GEN9_LP(dev_priv) &&
 		suspend_to_idle(dev_priv) && dev_priv->csr.dmc_payload;
@@ -1816,6 +1817,8 @@ static int i915_drm_resume_early(struct drm_device *dev)
 	if (IS_GEN9_LP(dev_priv) ||
 	    !(dev_priv->suspended_to_idle && dev_priv->csr.dmc_payload))
 		intel_power_domains_init_hw(dev_priv, true);
+
+	i915_rc6_ctx_wa_resume(dev_priv);
 
 	enable_rpm_wakeref_asserts(dev_priv);
 
