@@ -100,7 +100,6 @@ struct drm_i915_gem_object {
 	 * Is the object to be mapped as read-only to the GPU
 	 * Only honoured if hardware has relevant pte bit
 	 */
-	unsigned long gt_ro:1;
 	unsigned int cache_level:3;
 	unsigned int cache_dirty:1;
 
@@ -260,6 +259,18 @@ static inline bool
 i915_gem_object_is_dead(const struct drm_i915_gem_object *obj)
 {
 	return kref_read(&obj->base.refcount) == 0;
+}
+
+static inline void
+i915_gem_object_set_readonly(struct drm_i915_gem_object *obj)
+{
+	obj->base.vma_node.readonly = true;
+}
+
+static inline bool
+i915_gem_object_is_readonly(const struct drm_i915_gem_object *obj)
+{
+	return obj->base.vma_node.readonly;
 }
 
 static inline bool
