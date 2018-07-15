@@ -6,7 +6,6 @@ SRCDIR=	${.CURDIR:H}/drivers/gpu/drm
 
 KMOD=	drm
 SRCS=	ati_pcigart.c \
-	drm_agpsupport.c \
 	drm_atomic.c \
 	drm_atomic_helper.c \
 	drm_auth.c \
@@ -79,7 +78,6 @@ SRCS=	ati_pcigart.c \
 	linux_fb.c \
 	tainted_linux_fb.c \
 	linux_hdmi.c \
-	ttm_agp_backend.c \
 	ttm_lock.c \
 	ttm_object.c \
 	ttm_tt.c \
@@ -96,6 +94,12 @@ SRCS=	ati_pcigart.c \
 # drm scheduler (moved from amdgpu)
 SRCS+=	gpu_scheduler.c \
 	sched_fence.c
+# drm_fops.c \ deleted in v4.12
+
+.if ${MACHINE_CPUARCH} == "i386" || ${MACHINE_CPUARCH} == "amd64"
+SRCS+=	drm_agpsupport.c \
+	ttm_agp_backend.c
+.endif
 
 CFLAGS+= -I${.CURDIR:H}/linuxkpi/gplv2/include
 CFLAGS+= -I${.CURDIR:H}/linuxkpi/gplv2/arch/${MACHINE_CPUARCH}/include

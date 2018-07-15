@@ -17,6 +17,8 @@
 
 #if defined(__i386__) || defined(__amd64__)
 #define NR_IRQS	512 /* XXX need correct value */
+#elif defined(__aarch64__)
+#define NR_IRQS	64
 #else
 #error "NR_IRQS not defined"
 #endif

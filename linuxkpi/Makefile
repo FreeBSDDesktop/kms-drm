@@ -8,7 +8,6 @@ SRCS=	linux_kmod_gplv2.c	\
 	linux_anon_inodes.c 	\
 	linux_async.c		\
 	linux_backlight.c	\
-	linux_compat.c		\
 	linux_component.c	\
 	linux_device.c		\
 	linux_dmabuf.c		\
@@ -21,7 +20,6 @@ SRCS=	linux_kmod_gplv2.c	\
 	linux_interval_tree.c	\
 	linux_irq.c		\
 	linux_llist.c		\
-	linux_mtrr.c		\
 	linux_notifier.c	\
 	linux_page.c		\
 	linux_rbtree.c		\
@@ -38,6 +36,11 @@ SRCS+=	bus_if.h		\
 	device_if.h		\
 	pci_if.h		\
 	vnode_if.h
+
+.if ${MACHINE_CPUARCH} == "i386" || ${MACHINE_CPUARCH} == "amd64"
+SRCS+=	linux_compat.c		\
+	linux_mtrr.c
+.endif
 
 CFLAGS+= -include ${.CURDIR:H}/drivers/gpu/drm/drm_os_config.h
 CFLAGS+= -I${.CURDIR:H}/include

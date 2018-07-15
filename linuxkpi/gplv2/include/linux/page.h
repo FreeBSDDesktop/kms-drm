@@ -31,6 +31,7 @@ memset64(uint64_t *s, uint64_t v, size_t count)
 	return s;
 }
 
+#if defined(__i386__) || defined(__amd64__)
 int set_pages_array_wb(struct page **pages, int addrinarray);
 int set_pages_array_uc(struct page **pages, int addrinarray);
 int set_pages_array_wc(struct page **pages, int addrinarray);
@@ -38,13 +39,16 @@ int set_pages_array_wc(struct page **pages, int addrinarray);
 int set_pages_wb(vm_page_t page, int numpages);
 int set_pages_uc(vm_page_t page, int numpages);
 int set_pages_wc(vm_page_t page, int numpages);
+#endif
 
 vm_paddr_t page_to_phys(vm_page_t page);
 
 void unmap_mapping_range(void *obj, loff_t const holebegin,
     loff_t const holelen, int even_cows);
 
+#if defined(__i386__) || defined(__amd64__)
 #define linux_clflushopt(arg) __linux_clflushopt((u_long)(arg))
 extern void __linux_clflushopt(u_long addr);
+#endif
 
 #endif	/* _LINUX_PAGE_H_ */

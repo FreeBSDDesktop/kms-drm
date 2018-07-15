@@ -57,6 +57,7 @@
 extern u_int	cpu_feature;
 extern u_int	cpu_stdext_feature;
 
+#if defined(__i386__) || defined(__amd64__)
 void
 __linux_clflushopt(u_long addr)
 {
@@ -67,6 +68,7 @@ __linux_clflushopt(u_long addr)
 	else
 		pmap_invalidate_cache();
 }
+#endif
 
 void *
 kmap(vm_page_t page)
@@ -151,6 +153,7 @@ kunmap_atomic(void *vaddr)
 #endif
 }
 
+#if defined(__i386__) || defined(__amd64__)
 int
 set_memory_uc(unsigned long addr, int numpages)
 {
@@ -207,6 +210,7 @@ arch_io_free_memtype_wc(resource_size_t start, resource_size_t size)
 {
 	set_memory_wb(start, size >> PAGE_SHIFT);
 }
+#endif
 
 vm_paddr_t
 page_to_phys(vm_page_t page)

@@ -3,11 +3,12 @@
 SUBDIR=	linuxkpi	\
 	lindebugfs	\
 	drm		\
-	i915		\
-	amd		\
-	radeon		\
+	${_drivers}		\
 	${_staging}	
 
+.if ${MACHINE_CPUARCH} == "i386" || ${MACHINE_CPUARCH} == "amd64"
+_drivers=	i915 amd radeon
+.endif
 
 .if defined(STAGING)
 _staging=	staging

@@ -22,22 +22,26 @@
 #define CONFIG_64BIT	1
 #endif
 
-#if defined(__i386__) || defined(__amd64__)
-#define CONFIG_PCI 1
+#if defined(__i386__) || defined(__amd64__) || defined(__aarch64__)
+#define	CONFIG_PCI 1
 #define	CONFIG_ACPI 1
+#endif
+
+#if defined(__i386__) || defined(__amd64__)
 #define	CONFIG_ACPI_SLEEP 1
 #define	CONFIG_DRM_I915_KMS 1
-#undef	CONFIG_INTEL_IOMMU
 // For platforms with SSE4.1 (needed for GuC)
 #define CONFIG_AS_MOVNTDQA
+#define	CONFIG_AGP	1
+#define	CONFIG_MTRR	1
 #endif
+
+#undef	CONFIG_INTEL_IOMMU
+
 #ifdef _KERNEL
 #define	__KERNEL__
 #endif
 
-
-#define	CONFIG_AGP	1
-#define	CONFIG_MTRR	1
 
 #define	CONFIG_FB	1
 

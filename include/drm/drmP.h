@@ -134,8 +134,9 @@
 #include <linux/interrupt.h>
 #include <linux/pagemap.h>
 
-
+#ifdef CONFIG_MTRR
 #include <asm/mtrr.h>
+#endif
 #include <drm/drm_os_freebsd.h>
 #include <drm/drm_agpsupport.h>
 #include <drm/drm_crtc.h>
