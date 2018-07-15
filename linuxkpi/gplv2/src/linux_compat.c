@@ -1,11 +1,13 @@
 #include <sys/param.h>
 #include <sys/kernel.h>
 
+#include <linux/idr.h>
+
+#if defined(__i386__) || defined(__amd64__)
 #include <machine/specialreg.h>
 #include <machine/md_var.h>
 
 #include <linux/bitops.h>
-#include <linux/idr.h>
 #include <linux/pci.h>
 
 #include <asm/processor.h>
@@ -17,6 +19,7 @@
  */
 struct linux_resource intel_graphics_stolen_res;
 struct cpuinfo_x86 boot_cpu_data;
+#endif
 
 struct ida *hwmon_idap;
 DEFINE_IDA(hwmon_ida);
@@ -25,6 +28,7 @@ static void
 linux_compat_init(void *arg __unused)
 {
 
+#if defined(__i386__) || defined(__amd64__)
 	if ((cpu_feature & CPUID_CLFSH) != 0)
 		set_bit(X86_FEATURE_CLFLUSH, &boot_cpu_data.x86_capability);
 	if ((cpu_feature & CPUID_PAT) != 0)
@@ -40,6 +44,7 @@ linux_compat_init(void *arg __unused)
 	            intel_graphics_stolen_size);
 #else
 	intel_graphics_stolen_res = (struct linux_resource)DEFINE_RES_MEM(0, 0);
+#endif
 #endif
 }
 SYSINIT(linux_compat, SI_SUB_VFS, SI_ORDER_ANY, linux_compat_init, NULL);
