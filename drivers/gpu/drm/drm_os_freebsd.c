@@ -328,7 +328,7 @@ static moduledata_t drm_mod = {
 
 DECLARE_MODULE(drmn, drm_mod, SI_SUB_DRIVERS, SI_ORDER_FIRST);
 MODULE_VERSION(drmn, 2);
-#if defined(__i386__) || defined(__x86_64__)
+#ifdef CONFIG_AGP
 MODULE_DEPEND(drmn, agp, 1, 1, 1);
 #endif
 MODULE_DEPEND(drmn, pci, 1, 1, 1);
