@@ -1720,11 +1720,16 @@ i915_gem_do_execbuffer(struct drm_device *dev, void *data,
 	    (intel_engine_using_cmd_parser(engine) && args->batch_len)) {
 		struct i915_vma *vma;
 
+		u32 batch_off = args->batch_start_offset;
+		u32 batch_len = args->batch_len;
+		if (batch_len == 0)
+			batch_len = params->batch->obj->base.size - batch_off;
+
 		vma = i915_gem_execbuffer_parse(engine, &shadow_exec_entry,
 						params->batch->obj,
 						eb, vm,
-						args->batch_start_offset,
-						args->batch_len);
+						batch_off,
+						batch_len);
 		if (IS_ERR(vma)) {
 			ret = PTR_ERR(vma);
 			goto err;
