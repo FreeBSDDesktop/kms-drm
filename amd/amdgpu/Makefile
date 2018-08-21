@@ -394,18 +394,22 @@ SRCS+=	device_if.h vnode_if.h bus_if.h pci_if.h device_if.h iicbus_if.h opt_drm.
 
 .include <bsd.kmod.mk>
 
-CFLAGS.dcn_calcs.c= -msse -mstack-alignment=4
-CFLAGS.dcn_calc_auto.c= -msse -mstack-alignment=4
-CFLAGS.dcn_calc_math.c= -msse -mstack-alignment=4 -Wno-tautological-compare
+.if ${MACHINE_CPUARCH} == "amd64"
+_sse=-=msse
+.endif
 
-CFLAGS.display_mode_vba.c= -msse -mstack-alignment=4
-CFLAGS.display_mode_lib.c= -msse -mstack-alignment=4
-CFLAGS.display_pipe_clocks.c= -msse -mstack-alignment=4
-CFLAGS.display_rq_dlg_calc.c= -msse -mstack-alignment=4
-CFLAGS.dml1_display_rq_dlg_calc.c= -msse -mstack-alignment=4
-CFLAGS.display_rq_dlg_helpers.c= -msse -mstack-alignment=4
-CFLAGS.soc_bounding_box.c= -msse -mstack-alignment=4
-CFLAGS.dml_common_defs.c= -msse -mstack-alignment=4
+CFLAGS.dcn_calcs.c= ${_sse} -mstack-alignment=4
+CFLAGS.dcn_calc_auto.c= ${_sse} -mstack-alignment=4
+CFLAGS.dcn_calc_math.c= ${_sse} -mstack-alignment=4 -Wno-tautological-compare
+
+CFLAGS.display_mode_vba.c= ${_sse} -mstack-alignment=4
+CFLAGS.display_mode_lib.c= ${_sse} -mstack-alignment=4
+CFLAGS.display_pipe_clocks.c= ${_sse} -mstack-alignment=4
+CFLAGS.display_rq_dlg_calc.c= ${_sse} -mstack-alignment=4
+CFLAGS.dml1_display_rq_dlg_calc.c= ${_sse} -mstack-alignment=4
+CFLAGS.display_rq_dlg_helpers.c= ${_sse} -mstack-alignment=4
+CFLAGS.soc_bounding_box.c= ${_sse} -mstack-alignment=4
+CFLAGS.dml_common_defs.c= ${_sse} -mstack-alignment=4
 
 CWARNFLAGS+=	-Wno-pointer-arith -Wno-format
 CWARNFLAGS+=	-Wno-pointer-sign ${CWARNFLAGS.${.IMPSRC:T}}

@@ -9,7 +9,7 @@ SUBDIR=	linuxkpi	\
 .if ${MACHINE_CPUARCH} == "i386" || ${MACHINE_CPUARCH} == "amd64"
 _drivers=	i915 amd radeon
 .elif ${MACHINE_CPUARCH} == "aarch64"
-_drivers=	radeon
+_drivers=	amd radeon
 .endif
 
 .if defined(STAGING)
