@@ -53,6 +53,7 @@
 #include "intel_uc.h"
 
 #define pci_get_class linux_pci_get_class
+#define	pci_save_state linux_pci_save_state
 
 static struct drm_driver driver;
 
@@ -1640,7 +1641,7 @@ static int i915_drm_suspend(struct drm_device *dev)
 
 	drm_kms_helper_poll_disable(dev);
 
-	pci_save_state(pdev->dev.bsddev);
+	pci_save_state(pdev);
 
 	error = i915_gem_suspend(dev_priv);
 	if (error) {
