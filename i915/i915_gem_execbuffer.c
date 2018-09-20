@@ -1392,7 +1392,8 @@ shadow_batch_pin(struct drm_i915_gem_object *obj, struct i915_address_space *vm)
 }
 
 static struct i915_vma *
-i915_gem_execbuffer_parse(struct intel_engine_cs *engine,
+i915_gem_execbuffer_parse(struct i915_gem_context *ctx,
+			  struct intel_engine_cs *engine,
 			  struct drm_i915_gem_exec_object2 *shadow_exec_entry,
 			  struct drm_i915_gem_object *batch_obj,
 			  struct eb_vmas *eb,
@@ -1402,6 +1403,10 @@ i915_gem_execbuffer_parse(struct intel_engine_cs *engine,
 {
 	struct drm_i915_gem_object *shadow_batch_obj;
 	struct i915_vma *vma;
+	struct i915_vma *user_vma = list_entry(eb->vmas.prev,
+					typeof(*user_vma), exec_list);
+	u64 batch_start;
+	u64 shadow_batch_start;
 	int ret;
 
 	shadow_batch_obj = i915_gem_batch_pool_get(&engine->batch_pool,
@@ -1409,12 +1414,27 @@ i915_gem_execbuffer_parse(struct intel_engine_cs *engine,
 	if (IS_ERR(shadow_batch_obj))
 		return ERR_CAST(shadow_batch_obj);
 
-	ret = intel_engine_cmd_parser(engine,
+	vma = shadow_batch_pin(shadow_batch_obj, vm);
+	if (IS_ERR(vma)) {
+		ret = PTR_ERR(vma);
+		goto out;
+	}
+
+	batch_start = user_vma->node.start + batch_start_offset;
+
+	shadow_batch_start = gen8_canonical_addr(vma->node.start);
+
+	ret = intel_engine_cmd_parser(ctx,
+				      engine,
 				      batch_obj,
-				      shadow_batch_obj,
+				      batch_start,
 				      batch_start_offset,
-				      batch_len);
+				      batch_len,
+				      shadow_batch_obj,
+				      shadow_batch_start);
 	if (ret) {
+		i915_vma_unpin(vma);
+
 		/*
 		 * Unsafe GGTT-backed buffers can still be submitted safely
 		 * as non-secure.
@@ -1426,12 +1446,6 @@ i915_gem_execbuffer_parse(struct intel_engine_cs *engine,
 			vma = NULL;
 		else
 			vma = ERR_PTR(ret);
-		goto out;
-	}
-
-	vma = shadow_batch_pin(shadow_batch_obj, vm);
-	if (IS_ERR(vma)) {
-		ret = PTR_ERR(vma);
 		goto out;
 	}
 
@@ -1725,7 +1739,7 @@ i915_gem_do_execbuffer(struct drm_device *dev, void *data,
 		if (batch_len == 0)
 			batch_len = params->batch->obj->base.size - batch_off;
 
-		vma = i915_gem_execbuffer_parse(engine, &shadow_exec_entry,
+		vma = i915_gem_execbuffer_parse(ctx, engine, &shadow_exec_entry,
 						params->batch->obj,
 						eb, vm,
 						batch_off,
