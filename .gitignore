@@ -1,4 +1,6 @@
 *.[oa]
+*.ko.debug
+*.ko.full
 TAGS
 patches
 patches_path_fix.sh
