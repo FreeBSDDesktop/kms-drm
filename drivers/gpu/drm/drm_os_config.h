@@ -108,4 +108,6 @@
 #define	CONFIG_DRM_AMD_DC 1
 #define	CONFIG_DRM_AMD_DC_DCN1_0 1
 
+#define	CONFIG_DRM_VMWGFX_FBCON 1
+
 #endif

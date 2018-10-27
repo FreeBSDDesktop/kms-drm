@@ -165,6 +165,10 @@
 #include "opt_drm.h"
 #include "opt_syscons.h"
 
+#ifndef __linux__
+#include <linux/movetobase.h>
+#endif
+
 #define __OS_HAS_AGP (defined(CONFIG_AGP) || (defined(CONFIG_AGP_MODULE) && defined(MODULE)))
 #define __OS_HAS_MTRR (defined(CONFIG_MTRR))
 

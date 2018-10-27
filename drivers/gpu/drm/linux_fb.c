@@ -51,6 +51,8 @@ fb_info_print(struct fb_info *t)
 static void
 vt_restore_fbdev_mode(void *arg, int pending)
 {
+	printf("%s\n", __func__);
+
 	struct drm_fb_helper *fb_helper;
 	struct vt_kms_softc *sc;
 	struct mm_struct mm;
@@ -68,6 +70,8 @@ vt_restore_fbdev_mode(void *arg, int pending)
 static int
 vt_kms_postswitch(void *arg)
 {
+	printf("%s\n", __func__);
+
 	struct vt_kms_softc *sc;
 
 	sc = (struct vt_kms_softc *)arg;
@@ -118,6 +122,8 @@ static int framebuffer_dev_unit = 0;
 static int
 fb_open(struct cdev *dev, int oflags, int devtype, struct thread *td)
 {
+	printf("%s\n", __func__);
+
 
 	return (0);
 }
@@ -125,6 +131,8 @@ fb_open(struct cdev *dev, int oflags, int devtype, struct thread *td)
 static int
 fb_close(struct cdev *dev, int fflag, int devtype, struct thread *td)
 {
+	printf("%s\n", __func__);
+
 
 	return (0);
 }
@@ -133,6 +141,8 @@ static int
 fb_ioctl(struct cdev *dev, u_long cmd, caddr_t data, int fflag,
     struct thread *td)
 {
+	printf("%s\n", __func__);
+
 	struct linux_fb_info *info;
 	struct fbtype *t;
 	int error;
@@ -179,6 +189,8 @@ fb_ioctl(struct cdev *dev, u_long cmd, caddr_t data, int fflag,
 static int
 fb_read(struct cdev *dev, struct uio *uio, int ioflag)
 {
+	printf("%s\n", __func__);
+
 
 	return (0); /* XXX nothing to read, yet */
 }
@@ -186,6 +198,8 @@ fb_read(struct cdev *dev, struct uio *uio, int ioflag)
 static int
 fb_write(struct cdev *dev, struct uio *uio, int ioflag)
 {
+	printf("%s\n", __func__);
+
 
 	return (0); /* XXX nothing written */
 }
@@ -194,6 +208,8 @@ static int
 fb_mmap(struct cdev *dev, vm_ooffset_t offset, vm_paddr_t *paddr, int nprot,
     vm_memattr_t *memattr)
 {
+	printf("%s\n", __func__);
+
 	struct linux_fb_info *info;
 
 	info = dev->si_drv1;
@@ -216,6 +232,8 @@ fb_mmap(struct cdev *dev, vm_ooffset_t offset, vm_paddr_t *paddr, int nprot,
 static int
 fbd_init(struct linux_fb_info *fb_info, int unit)
 {
+	printf("%s\n", __func__);
+
 	fb_info->fb_cdev = make_dev(&fb_cdevsw, unit, UID_ROOT, GID_WHEEL, 0600, "fb%d", unit);
 	fb_info->fb_cdev->si_drv1 = fb_info;
 
@@ -225,6 +243,8 @@ fbd_init(struct linux_fb_info *fb_info, int unit)
 static int
 fbd_destroy(struct linux_fb_info *fb_info)
 {
+	printf("%s\n", __func__);
+
 	destroy_dev(fb_info->fb_cdev);
 
 	return (0);
@@ -234,6 +254,8 @@ fbd_destroy(struct linux_fb_info *fb_info)
 static int
 fb_init(void)
 {
+	printf("%s\n", __func__);
+
 	fb_class = class_create(THIS_MODULE, "graphics");
 
 	return (fb_class == NULL ? ENOMEM : 0);
@@ -243,6 +265,8 @@ SYSINIT(fb_init, SI_SUB_KLD, SI_ORDER_MIDDLE, fb_init, NULL);
 static void
 fb_destroy(void)
 {
+	printf("%s\n", __func__);
+
 	class_destroy(fb_class);
 }
 SYSUNINIT(fb_destroy, SI_SUB_KLD, SI_ORDER_MIDDLE, fb_destroy, NULL);
@@ -251,6 +275,8 @@ SYSUNINIT(fb_destroy, SI_SUB_KLD, SI_ORDER_MIDDLE, fb_destroy, NULL);
 struct linux_fb_info *
 framebuffer_alloc(size_t size, struct device *dev)
 {
+	printf("%s\n", __func__);
+
 #define BYTES_PER_LONG (BITS_PER_LONG/8)
 #define PADDING (BYTES_PER_LONG - (sizeof(struct linux_fb_info) % BYTES_PER_LONG))
 	int fb_info_size = sizeof(struct linux_fb_info);
@@ -282,6 +308,8 @@ framebuffer_alloc(size_t size, struct device *dev)
 void
 framebuffer_release(struct linux_fb_info *info)
 {
+	printf("%s\n", __func__);
+
 	struct vt_kms_softc *sc;
 
 	if (info == NULL)
@@ -299,6 +327,8 @@ framebuffer_release(struct linux_fb_info *info)
 static void
 put_fb_info(struct linux_fb_info *fb_info)
 {
+	printf("%s\n", __func__);
+
 	if (!atomic_dec_and_test(&fb_info->count))
 		return;
 
@@ -422,6 +452,8 @@ fb_destroy_modes(struct list_head *head)
 static int
 fb_add_videomode(const struct fb_videomode *mode, struct list_head *head)
 {
+	printf("%s\n", __func__);
+
 	struct list_head *pos;
 	struct fb_modelist *modelist;
 	struct fb_videomode *m;
@@ -490,6 +522,8 @@ fb_var_to_videomode(struct fb_videomode *mode,
 void
 drm_legacy_fb_init(struct linux_fb_info *info)
 {
+	printf("%s\n", __func__);
+
 	struct fb_info *t;
 
 	t = &info->fbio;
@@ -507,6 +541,8 @@ drm_legacy_fb_init(struct linux_fb_info *info)
 static int
 __register_framebuffer(struct linux_fb_info *fb_info)
 {
+	printf("%s\n", __func__);
+
 	int i, err;
 	static int unit_no;
 	struct fb_event event;
@@ -604,6 +640,8 @@ __register_framebuffer(struct linux_fb_info *fb_info)
 int
 linux_register_framebuffer(struct linux_fb_info *fb_info)
 {
+	printf("%s\n", __func__);
+
 	int rc;
 
 	sx_xlock(&linux_fb_mtx);
@@ -712,12 +750,16 @@ fb_set_suspend(struct linux_fb_info *info, int state)
 void
 cfb_fillrect(struct linux_fb_info *p, const struct fb_fillrect *rect)
 {
+	printf("%s\n", __func__);
+
 	tainted_cfb_fillrect(p, rect);
 }
 
 void
 cfb_copyarea(struct linux_fb_info *p, const struct fb_copyarea *area)
 {
+	printf("%s\n", __func__);
+
 
 	tainted_cfb_copyarea(p, area);
 }
@@ -725,18 +767,24 @@ cfb_copyarea(struct linux_fb_info *p, const struct fb_copyarea *area)
 void
 cfb_imageblit(struct linux_fb_info *p, const struct fb_image *image)
 {
+	printf("%s\n", __func__);
+
 	tainted_cfb_imageblit(p, image);
 }
 
 void
 sys_fillrect(struct linux_fb_info *p, const struct fb_fillrect *rect)
 {
+	printf("%s\n", __func__);
+
 	tainted_cfb_fillrect(p, rect);
 }
 
 void
 sys_copyarea(struct linux_fb_info *p, const struct fb_copyarea *area)
 {
+	printf("%s\n", __func__);
+
 
 	tainted_cfb_copyarea(p, area);
 }
@@ -744,12 +792,16 @@ sys_copyarea(struct linux_fb_info *p, const struct fb_copyarea *area)
 void
 sys_imageblit(struct linux_fb_info *p, const struct fb_image *image)
 {
+	printf("%s\n", __func__);
+
 	tainted_cfb_imageblit(p, image);
 }
 
 static int
 fb_copy_cmap(const struct fb_cmap *from, struct fb_cmap *to)
 {
+	printf("%s\n", __func__);
+
 	int tooff = 0, fromoff = 0;
 	int size;
 
@@ -775,6 +827,8 @@ fb_copy_cmap(const struct fb_cmap *from, struct fb_cmap *to)
 static int
 fb_alloc_cmap_gfp(struct fb_cmap *cmap, int len, int transp, gfp_t flags)
 {
+	printf("%s\n", __func__);
+
 	int size = len * sizeof(u16);
 	int ret = -ENOMEM;
 
@@ -815,12 +869,16 @@ fail:
 int
 fb_alloc_cmap(struct fb_cmap *cmap, int len, int transp)
 {
+	printf("%s\n", __func__);
+
 	return fb_alloc_cmap_gfp(cmap, len, transp, GFP_ATOMIC);
 }
 
 void
 fb_dealloc_cmap(struct fb_cmap *cmap)
 {
+	printf("%s\n", __func__);
+
 	kfree(cmap->red);
 	kfree(cmap->green);
 	kfree(cmap->blue);
@@ -835,6 +893,8 @@ ssize_t
 fb_sys_read(struct linux_fb_info *info, char *ubuf, size_t count,
 		    loff_t *ppos)
 {
+	printf("%s\n", __func__);
+
 	unsigned long p = *ppos;
 	void *src;
 	int err = 0;
@@ -869,6 +929,8 @@ ssize_t
 fb_sys_write(struct linux_fb_info *info, const char *kbuf,
 		     size_t count, loff_t *ppos)
 {
+	printf("%s\n", __func__);
+
 	unsigned long p = *ppos;
 	void *dst;
 	int err = 0;
