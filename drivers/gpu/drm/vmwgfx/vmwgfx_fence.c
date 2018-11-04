@@ -443,6 +443,7 @@ static bool vmw_fence_goal_check_locked(struct vmw_fence_obj *fence)
 	return true;
 }
 
+static uint64_t vmwgfx_run = 0;
 static void __vmw_fences_update(struct vmw_fence_manager *fman)
 {
 	struct vmw_fence_obj *fence, *next_fence;
@@ -450,13 +451,26 @@ static void __vmw_fences_update(struct vmw_fence_manager *fman)
 	bool needs_rerun;
 	uint32_t seqno, new_seqno;
 	u32 *fifo_mem = fman->dev_priv->mmio_virt;
+	uint64_t r;
 
+	r = ++vmwgfx_run;
 	seqno = vmw_mmio_read(fifo_mem + SVGA_FIFO_FENCE);
 rerun:
 	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
 		if (seqno - fence->base.seqno < VMW_FENCE_WRAP) {
 			list_del_init(&fence->head);
 			dma_fence_signal_locked(&fence->base);
+			/*
+			 * XXX: If this function is called "recursively" when fence is
+			 * signaled we get corrupted fence_list state leading to panic or
+			 * endless loop. This usually happen when resizing the screen
+			 * while running glxgears at max fps.
+			 * Break out early when this happens.
+			 */
+			if (r != vmwgfx_run) {
+				printf("%s: XXX Avoided panic with an ugly hack...\n", __func__);
+				break;
+			}
 			INIT_LIST_HEAD(&action_list);
 			list_splice_init(&fence->seq_passed_actions,
 					 &action_list);
