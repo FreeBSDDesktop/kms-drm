@@ -199,10 +199,21 @@ static long vmw_fence_wait(struct dma_fence *f, bool intr, signed long timeout)
 		if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &f->flags))
 			break;
 
+#ifdef __linux__
 		if (intr)
 			__set_current_state(TASK_INTERRUPTIBLE);
 		else
 			__set_current_state(TASK_UNINTERRUPTIBLE);
+#else
+		/*
+		 * We need to use atomic here since LinuxKPI releases
+		 * the locks during dma fence callbacks.
+		 */
+		if (intr)
+			set_current_state(TASK_INTERRUPTIBLE);
+		else
+			set_current_state(TASK_UNINTERRUPTIBLE);
+#endif
 		spin_unlock_irqrestore(f->lock, irq_flags);
 
 		ret = schedule_timeout(ret);
@@ -443,34 +454,25 @@ static bool vmw_fence_goal_check_locked(struct vmw_fence_obj *fence)
 	return true;
 }
 
-static uint64_t vmwgfx_run = 0;
 static void __vmw_fences_update(struct vmw_fence_manager *fman)
 {
+#ifdef __linux__
 	struct vmw_fence_obj *fence, *next_fence;
+#else
+	struct vmw_fence_obj *fence;
+#endif
 	struct list_head action_list;
 	bool needs_rerun;
 	uint32_t seqno, new_seqno;
 	u32 *fifo_mem = fman->dev_priv->mmio_virt;
-	uint64_t r;
 
-	r = ++vmwgfx_run;
 	seqno = vmw_mmio_read(fifo_mem + SVGA_FIFO_FENCE);
 rerun:
+#ifdef __linux__
 	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
 		if (seqno - fence->base.seqno < VMW_FENCE_WRAP) {
 			list_del_init(&fence->head);
 			dma_fence_signal_locked(&fence->base);
-			/*
-			 * XXX: If this function is called "recursively" when fence is
-			 * signaled we get corrupted fence_list state leading to panic or
-			 * endless loop. This usually happen when resizing the screen
-			 * while running glxgears at max fps.
-			 * Break out early when this happens.
-			 */
-			if (r != vmwgfx_run) {
-				printf("%s: XXX Avoided panic with an ugly hack...\n", __func__);
-				break;
-			}
 			INIT_LIST_HEAD(&action_list);
 			list_splice_init(&fence->seq_passed_actions,
 					 &action_list);
@@ -478,7 +480,31 @@ rerun:
 		} else
 			break;
 	}
+#else
+        while(!list_empty(&fman->fence_list)) {
+                fence = list_first_entry(&fman->fence_list,
+		    struct vmw_fence_obj, head);
+                if (seqno - fence->base.seqno >= VMW_FENCE_WRAP)
+                        break;
 
+                list_del_init(&fence->head);
+
+                /*
+                 * dma_fence_signal_locked might unlock, so take a reference
+                 * on the fence to avoid it disappearing from under us.
+                 */
+                if (!dma_fence_get_rcu(&fence->base))
+                        continue;
+                dma_fence_signal_locked(&fence->base);
+                INIT_LIST_HEAD(&action_list);
+                list_splice_init(&fence->seq_passed_actions,
+		    &action_list);
+                vmw_fences_perform_actions(fman, &action_list);
+                spin_unlock(&fman->lock);
+                vmw_fence_obj_unreference(&fence);
+                spin_lock(&fman->lock);
+        }
+#endif
 	/*
 	 * Rerun if the fence goal seqno was updated, and the
 	 * hardware might have raced with that update, so that
