@@ -28,8 +28,6 @@
 #include <linux/module.h>
 #include <linux/dma-buf.h>
 
-bool (*kgd2kfd_init_p)(unsigned int, const struct kgd2kfd_calls**);
-
 static const unsigned int compute_vmid_bitmap = 0xFF00;
 
 /* Total memory size in system memory and all GPU VRAM. Used to
