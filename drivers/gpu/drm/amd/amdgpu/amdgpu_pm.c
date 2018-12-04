@@ -233,6 +233,8 @@ static ssize_t amdgpu_get_pp_num_states(struct device *dev,
 	struct pp_states_info data;
 	int i, buf_len;
 
+	memset(&data, 0, sizeof(struct pp_states_info));
+
 	if (adev->powerplay.pp_funcs->get_pp_num_states)
 		amdgpu_dpm_get_pp_num_states(adev, &data);
 
