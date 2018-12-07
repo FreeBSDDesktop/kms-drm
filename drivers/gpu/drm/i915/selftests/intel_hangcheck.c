@@ -450,7 +450,7 @@ static int __igt_reset_engine(struct drm_i915_private *i915, bool active)
 				if (!wait_until_running(&h, rq)) {
 					struct drm_printer p = drm_info_printer(i915->drm.dev);
 
-					pr_err("%s: Failed to start request %x, at %x\n",
+					pr_err("%s: Failed to start request %llx, at %x\n",
 					       __func__, rq->fence.seqno, hws_seqno(&h, rq));
 					intel_engine_dump(engine, &p,
 							  "%s\n", engine->name);
@@ -551,7 +551,7 @@ static int active_request_put(struct i915_request *rq)
 		return 0;
 
 	if (i915_request_wait(rq, 0, 5 * HZ) < 0) {
-		GEM_TRACE("%s timed out waiting for completion of fence %llx:%d, seqno %d.\n",
+		GEM_TRACE("%s timed out waiting for completion of fence %llx:%lld, seqno %d.\n",
 			  rq->engine->name,
 			  rq->fence.context,
 			  rq->fence.seqno,
@@ -728,7 +728,7 @@ static int __igt_reset_engines(struct drm_i915_private *i915,
 				if (!wait_until_running(&h, rq)) {
 					struct drm_printer p = drm_info_printer(i915->drm.dev);
 
-					pr_err("%s: Failed to start request %x, at %x\n",
+					pr_err("%s: Failed to start request %llx, at %x\n",
 					       __func__, rq->fence.seqno, hws_seqno(&h, rq));
 					intel_engine_dump(engine, &p,
 							  "%s\n", engine->name);
@@ -927,7 +927,7 @@ static int igt_reset_wait(void *arg)
 	if (!wait_until_running(&h, rq)) {
 		struct drm_printer p = drm_info_printer(i915->drm.dev);
 
-		pr_err("%s: Failed to start request %x, at %x\n",
+		pr_err("%s: Failed to start request %llx, at %x\n",
 		       __func__, rq->fence.seqno, hws_seqno(&h, rq));
 		intel_engine_dump(rq->engine, &p, "%s\n", rq->engine->name);
 
@@ -1106,7 +1106,7 @@ static int __igt_reset_evict_vma(struct drm_i915_private *i915,
 	if (!wait_until_running(&h, rq)) {
 		struct drm_printer p = drm_info_printer(i915->drm.dev);
 
-		pr_err("%s: Failed to start request %x, at %x\n",
+		pr_err("%s: Failed to start request %llx, at %x\n",
 		       __func__, rq->fence.seqno, hws_seqno(&h, rq));
 		intel_engine_dump(rq->engine, &p, "%s\n", rq->engine->name);
 
@@ -1301,7 +1301,7 @@ static int igt_reset_queue(void *arg)
 			if (!wait_until_running(&h, prev)) {
 				struct drm_printer p = drm_info_printer(i915->drm.dev);
 
-				pr_err("%s(%s): Failed to start request %x, at %x\n",
+				pr_err("%s(%s): Failed to start request %llx, at %x\n",
 				       __func__, engine->name,
 				       prev->fence.seqno, hws_seqno(&h, prev));
 				intel_engine_dump(engine, &p,
@@ -1412,7 +1412,7 @@ static int igt_handle_error(void *arg)
 	if (!wait_until_running(&h, rq)) {
 		struct drm_printer p = drm_info_printer(i915->drm.dev);
 
-		pr_err("%s: Failed to start request %x, at %x\n",
+		pr_err("%s: Failed to start request %llx, at %x\n",
 		       __func__, rq->fence.seqno, hws_seqno(&h, rq));
 		intel_engine_dump(rq->engine, &p, "%s\n", rq->engine->name);
 
