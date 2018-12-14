@@ -28,7 +28,6 @@
 #include <linux/module.h>
 #include <linux/dma-buf.h>
 
-const struct kgd2kfd_calls *kgd2kfd;
 bool (*kgd2kfd_init_p)(unsigned int, const struct kgd2kfd_calls**);
 
 static const unsigned int compute_vmid_bitmap = 0xFF00;
@@ -48,12 +47,9 @@ int amdgpu_amdkfd_init(void)
 	amdgpu_amdkfd_total_mem_size *= si.mem_unit;
 
 #ifdef CONFIG_HSA_AMD
-	ret = kgd2kfd_init(KFD_INTERFACE_VERSION, &kgd2kfd);
-	if (ret)
-		kgd2kfd = NULL;
+	ret = kgd2kfd_init();
 	amdgpu_amdkfd_gpuvm_init_mem_limits();
 #else
-	kgd2kfd = NULL;
 	ret = -ENOENT;
 #endif
 
