@@ -1159,16 +1159,6 @@ static const struct file_operations i915_error_state_fops = {
 #endif /* !__linux__ */
 #endif /* !IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR) */
 
-static int
-i915_next_seqno_set(void *data, u64 val)
-{
-	return val ? 0 : -EINVAL;
-}
-
-DEFINE_SIMPLE_ATTRIBUTE(i915_next_seqno_fops,
-			NULL, i915_next_seqno_set,
-			"0x%llx\n");
-
 static int i915_frequency_info(struct seq_file *m, void *unused)
 {
 	struct drm_i915_private *dev_priv = node_to_i915(m->private);
@@ -5000,7 +4990,6 @@ static const struct i915_debugfs_files {
 	{"i915_gpu_info", &i915_gpu_info_fops},
 #endif
 	{"i915_fifo_underrun_reset", &i915_fifo_underrun_reset_ops},
-	{"i915_next_seqno", &i915_next_seqno_fops},
 	{"i915_pri_wm_latency", &i915_pri_wm_latency_fops},
 	{"i915_spr_wm_latency", &i915_spr_wm_latency_fops},
 	{"i915_cur_wm_latency", &i915_cur_wm_latency_fops},
