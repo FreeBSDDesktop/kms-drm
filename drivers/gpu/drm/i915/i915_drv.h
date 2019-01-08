@@ -48,7 +48,6 @@
 #include <linux/shmem_fs.h>
 #include <linux/typecheck.h>
 
-#include <drm/drmP.h>
 #include <drm/intel-gtt.h>
 #include <drm/drm_legacy.h> /* for struct drm_dma_handle */
 #include <drm/drm_gem.h>
@@ -56,6 +55,7 @@
 #include <drm/drm_cache.h>
 #include <drm/drm_util.h>
 #include <drm/drm_dsc.h>
+#include <drm/drm_connector.h>
 
 #include "i915_fixed.h"
 #include "i915_params.h"
