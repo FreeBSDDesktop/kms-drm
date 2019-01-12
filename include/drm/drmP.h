@@ -204,10 +204,11 @@ extern int		drm_sysctl_cleanup(struct drm_device *dev);
 #endif
 #endif				/* __KERNEL__ */
 
-#if defined(CONFIG_DRM_DEBUG_SELFTEST_MODULE)
-#define EXPORT_SYMBOL_FOR_TESTS_ONLY(x) EXPORT_SYMBOL(x)
-#else
-#define EXPORT_SYMBOL_FOR_TESTS_ONLY(x)
-#endif
+/*
+ * NOTE: drmP.h is obsolete - do NOT add anything to this file
+ *
+ * Do not include drmP.h in new files.
+ * Work is ongoing to remove drmP.h includes from existing files
+ */
 
 #endif
