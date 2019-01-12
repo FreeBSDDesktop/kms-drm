@@ -183,14 +183,6 @@ struct dma_buf_attachment;
 struct pci_dev;
 struct pci_controller;
 
-/* returns true if currently okay to sleep */
-static inline bool drm_can_sleep(void)
-{
-	if (in_atomic() || in_dbg_master() || irqs_disabled() || cold)
-		return false;
-	return true;
-}
-
 #ifndef __linux__
 /* BSDFIXME: Confirm is this for freebsd only? */
 /* sysctl support (drm_sysctl.h) */
