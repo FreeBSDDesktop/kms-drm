@@ -2012,7 +2012,6 @@ struct drm_i915_private {
 		 * is a slight delay before we do so.
 		 */
 		intel_wakeref_t awake;
-		intel_wakeref_t power;
 
 		/**
 		 * The number of times we have woken up.
