@@ -47,7 +47,9 @@
 #include <linux/reservation.h>
 #include <linux/shmem_fs.h>
 #include <linux/typecheck.h>
-#ifndef __linux__
+#ifdef __linux__
+#include <linux/stackdepot.h>
+#else
 #include <linux/ratelimit.h>
 #endif
 
@@ -1166,6 +1168,25 @@ struct i915_runtime_pm {
 	atomic_t wakeref_count;
 	bool suspended;
 	bool irqs_enabled;
+
+#if IS_ENABLED(CONFIG_DRM_I915_DEBUG_RUNTIME_PM)
+	/*
+	 * To aide detection of wakeref leaks and general misuse, we
+	 * track all wakeref holders. With manual markup (i.e. returning
+	 * a cookie to each rpm_get caller which they then supply to their
+	 * paired rpm_put) we can remove corresponding pairs of and keep
+	 * the array trimmed to active wakerefs.
+	 */
+	struct intel_runtime_pm_debug {
+		spinlock_t lock;
+
+		depot_stack_handle_t last_acquire;
+		depot_stack_handle_t last_release;
+
+		depot_stack_handle_t *owners;
+		unsigned long count;
+	} debug;
+#endif
 };
 
 enum intel_pipe_crc_source {
