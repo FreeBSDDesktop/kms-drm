@@ -47,9 +47,8 @@
 #include <linux/reservation.h>
 #include <linux/shmem_fs.h>
 #include <linux/typecheck.h>
-#ifdef __linux__
 #include <linux/stackdepot.h>
-#else
+#ifndef __linux__
 #include <linux/ratelimit.h>
 #endif
 
@@ -141,6 +140,8 @@ bool i915_error_injected(void);
 #define i915_load_error(i915, fmt, ...)					 \
 	__i915_printk(i915, i915_error_injected() ? KERN_DEBUG : KERN_ERR, \
 		      fmt, ##__VA_ARGS__)
+
+typedef depot_stack_handle_t intel_wakeref_t;
 
 enum hpd_pin {
 	HPD_NONE = 0,
