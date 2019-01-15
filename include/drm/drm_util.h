@@ -32,14 +32,14 @@
  * Macros and inline functions that does not naturally belong in other places
  */
 
-#include <linux/irqflags.h>
-#include <linux/preempt.h>
+#include <linux/interrupt.h>
 #ifdef __linux__
 #include <linux/kgdb.h>
 #else
 #include <drm/drm_os_freebsd.h>
 #include <linux/kthread.h>
 #endif
+#include <linux/preempt.h>
 #include <linux/smp.h>
 
 /*
