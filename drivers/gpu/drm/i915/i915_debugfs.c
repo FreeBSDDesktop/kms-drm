@@ -32,6 +32,8 @@
 #include "intel_drv.h"
 #include "intel_guc_submission.h"
 
+#include "i915_reset.h"
+
 #ifndef __linux__
 #include <asm/msr.h>
 #endif
