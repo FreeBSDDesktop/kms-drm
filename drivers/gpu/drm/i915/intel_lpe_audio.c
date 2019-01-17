@@ -65,9 +65,9 @@
 #include <linux/irq.h>
 #include <linux/pci.h>
 #include <linux/pm_runtime.h>
+#include <linux/platform_device.h>
 
 #ifndef __linux__
-#include <linux/platform_device.h>
 #include <linux/irq.h>
 
 // Porting incomplete!! Omitted from build. 
