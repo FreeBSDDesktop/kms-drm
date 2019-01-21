@@ -1187,8 +1187,7 @@ static void notify_ring(struct intel_engine_cs *engine)
 			struct i915_request *waiter = wait->request;
 
 			if (waiter &&
-			    !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
-				      &waiter->fence.flags) &&
+			    !i915_request_signaled(waiter) &&
 			    intel_wait_check_request(wait, waiter))
 				rq = i915_request_get(waiter);
 
