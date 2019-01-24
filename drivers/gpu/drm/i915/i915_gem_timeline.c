@@ -72,7 +72,7 @@ static int __i915_gem_timeline_init(struct drm_i915_private *i915,
 	if (!timeline->name)
 		return -ENOMEM;
 
-	list_add(&timeline->link, &i915->gt.timelines);
+	list_add(&timeline->link, &i915->gt.timelines.active_list);
 
 	/* Called during early_init before we know how many engines there are */
 	fences = dma_fence_context_alloc(ARRAY_SIZE(timeline->engine));
@@ -125,7 +125,7 @@ void i915_gem_timelines_park(struct drm_i915_private *i915)
 
 	lockdep_assert_held(&i915->drm.struct_mutex);
 
-	list_for_each_entry(timeline, &i915->gt.timelines, link) {
+	list_for_each_entry(timeline, &i915->gt.timelines.active_list, link) {
 		for (i = 0; i < ARRAY_SIZE(timeline->engine); i++) {
 			struct intel_timeline *tl = &timeline->engine[i];
 
