@@ -31,6 +31,7 @@
 
 #include "i915_gem.h"
 #include "i915_scheduler.h"
+#include "intel_device_info.h"
 
 #ifdef __linux__ // FreeBSD use pid_t
 struct pid;
@@ -53,6 +54,16 @@ struct intel_context;
 struct intel_context_ops {
 	void (*unpin)(struct intel_context *ce);
 	void (*destroy)(struct intel_context *ce);
+};
+
+/*
+ * Powergating configuration for a particular (context,engine).
+ */
+struct intel_sseu {
+	u8 slice_mask;
+	u8 subslice_mask;
+	u8 min_eus_per_subslice;
+	u8 max_eus_per_subslice;
 };
 
 /**
@@ -179,6 +190,9 @@ struct i915_gem_context {
 		int pin_count;
 
 		const struct intel_context_ops *ops;
+
+		/** sseu: Control eu/slice partitioning */
+		struct intel_sseu sseu;
 	} __engine[I915_NUM_ENGINES];
 
 	/** ring_size: size for allocating the per-engine ring buffer */
