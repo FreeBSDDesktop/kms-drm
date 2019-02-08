@@ -118,7 +118,7 @@
 
 #include <drm/drm_hashtab.h>
 #ifdef __linux__
-#include <asm/mman.h>
+#include <linux/mman.h>
 #include <asm/pgalloc.h>
 #endif
 #include <linux/uaccess.h>
