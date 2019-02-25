@@ -509,7 +509,7 @@ int drm_dev_init(struct drm_device *dev,
 	BUG_ON(!parent);
 
 	kref_init(&dev->ref);
-	dev->dev = parent;
+	dev->dev = get_device(parent);
 	dev->driver = driver;
 
 	/* no per-device feature limits by default */
@@ -583,6 +583,7 @@ err_minors:
 	drm_fs_inode_free(dev->anon_inode);
 #endif
 err_free:
+	put_device(dev->dev);
 
 #ifndef __linux__ // In LKPI spinlock is a mutex so we need to destroy them
 	spin_lock_destroy(&dev->buf_lock);
@@ -625,6 +626,8 @@ void drm_dev_fini(struct drm_device *dev)
 
 	drm_minor_free(dev, DRM_MINOR_PRIMARY);
 	drm_minor_free(dev, DRM_MINOR_RENDER);
+
+	put_device(dev->dev);
 
 #ifndef __linux__
 	spin_lock_destroy(&dev->buf_lock);
