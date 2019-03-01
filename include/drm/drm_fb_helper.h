@@ -43,6 +43,8 @@ struct drm_fb_helper;
 #include <linux/kgdb.h>
 #endif
 
+#include <linux/vgaarb.h>
+
 enum mode_set_atomic {
 	LEAVE_ATOMIC_MODE_SET,
 	ENTER_ATOMIC_MODE_SET,
@@ -626,11 +628,18 @@ drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
 						  int resource_id,
 						  const char *name)
 {
+	int ret = 0;
+
+	/*
+	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+	 * otherwise the vga fbdev driver falls over.
+	 */
 #if IS_REACHABLE(CONFIG_FB)
-	return remove_conflicting_pci_framebuffers(pdev, resource_id, name);
-#else
-	return 0;
+	ret = remove_conflicting_pci_framebuffers(pdev, resource_id, name);
 #endif
+	if (ret == 0)
+		ret = vga_remove_vgacon(pdev);
+	return ret;
 }
 
 #endif
