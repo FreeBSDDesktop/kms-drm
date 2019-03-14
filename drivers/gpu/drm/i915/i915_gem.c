@@ -1765,11 +1765,16 @@ i915_gem_mmap_ioctl(struct drm_device *dev, void *data,
 	 * pages from.
 	 */
 	if (!obj->base.filp) {
-		i915_gem_object_put(obj);
-		return -ENXIO;
+		addr = -ENXIO;
+		goto err;
 	}
 
 #ifdef __linux__
+	if (range_overflows(args->offset, args->size, (u64)obj->base.size)) {
+		addr = -EINVAL;
+		goto err;
+	}
+
 	addr = vm_mmap(obj->base.filp, 0, args->size,
 		       PROT_READ | PROT_WRITE, MAP_SHARED,
 		       args->offset);
@@ -1781,8 +1786,8 @@ i915_gem_mmap_ioctl(struct drm_device *dev, void *data,
 		struct vm_area_struct *vma;
 
 		if (down_write_killable(&mm->mmap_sem)) {
-			i915_gem_object_put(obj);
-			return -EINTR;
+			addr = -EINTR;
+			goto err;
 		}
 		vma = find_vma(mm, addr);
 		if (vma && __vma_matches(vma, obj->base.filp, addr, args->size))
@@ -1797,6 +1802,10 @@ i915_gem_mmap_ioctl(struct drm_device *dev, void *data,
 		/* This may race, but that's ok, it only gets set */
 		WRITE_ONCE(obj->frontbuffer_ggtt_origin, ORIGIN_CPU);
 	}
+	i915_gem_object_put(obj);
+
+	args->addr_ptr = (u64)addr;
+	return 0;
 #else
 	error = 0;
 	addr = 0;
@@ -1837,19 +1846,15 @@ i915_gem_mmap_ioctl(struct drm_device *dev, void *data,
 		args->addr_ptr = (u64)addr;
 	}
 
-#endif
-
 out:
 	i915_gem_object_put(obj);
-
+	args->addr_ptr = (u64)addr;
 	return 0;
+#endif
 
-#ifdef __linux__
 err:
 	i915_gem_object_put(obj);
-
 	return addr;
-#endif
 }
 
 static unsigned int tile_row_pages(const struct drm_i915_gem_object *obj)
