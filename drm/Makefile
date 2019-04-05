@@ -71,20 +71,7 @@ SRCS=	ati_pcigart.c \
 	drm_vm.c \
 	linux_fb.c \
 	tainted_linux_fb.c \
-	linux_hdmi.c \
-	ttm_agp_backend.c \
-	ttm_lock.c \
-	ttm_object.c \
-	ttm_tt.c \
-	ttm_bo_util.c \
-	ttm_bo.c \
-	ttm_bo_manager.c \
-	ttm_execbuf_util.c \
-	ttm_memory.c \
-	ttm_module.c \
-	ttm_page_alloc.c \
-	ttm_page_alloc_dma.c \
-	ttm_bo_vm.c
+	linux_hdmi.c
 
 CFLAGS+= -I${.CURDIR:H}/linuxkpi/dummy/include
 CFLAGS+= -I${.CURDIR:H}/linuxkpi/gplv2/include

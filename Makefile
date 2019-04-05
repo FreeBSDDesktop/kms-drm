@@ -1,6 +1,7 @@
 # $FreeBSD$
 
 SUBDIR=	drm		\
+	ttm		\
 	amd		\
 	i915		\
 	radeon		\
