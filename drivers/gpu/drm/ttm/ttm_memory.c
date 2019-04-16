@@ -464,8 +464,8 @@ out_no_zone:
 
 void ttm_mem_global_release(struct ttm_mem_global *glob)
 {
-	unsigned int i;
 	struct ttm_mem_zone *zone;
+	unsigned int i;
 
 	/* let the page allocator first stop the shrink work. */
 	ttm_page_alloc_fini();
@@ -481,6 +481,7 @@ void ttm_mem_global_release(struct ttm_mem_global *glob)
 	}
 	kobject_del(&glob->kobj);
 	kobject_put(&glob->kobj);
+	memset(glob, 0, sizeof(*glob));
 }
 
 static void ttm_check_swapping(struct ttm_mem_global *glob)
