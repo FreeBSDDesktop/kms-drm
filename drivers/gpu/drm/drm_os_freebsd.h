@@ -121,7 +121,6 @@ writeq(uint64_t v, volatile void *addr)
 
 #define	DRM_AGP_MEM	void
 
-#define	IS_ALIGNED(x, y)	(((x) & ((y) - 1)) == 0)
 #define	get_unaligned(ptr)                                              \
 	({ __typeof__(*(ptr)) __tmp;                                    \
 	  memcpy(&__tmp, (ptr), sizeof(*(ptr))); __tmp; })
