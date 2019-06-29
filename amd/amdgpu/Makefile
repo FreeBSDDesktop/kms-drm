@@ -201,7 +201,7 @@ SRCS+=	amdgpu_afmt.c \
 	vega10_ih.c \
 	vi.c
 
-.if ${MACHINE_CPUARCH} == "amd64" || ${MACHINE_CPUARCH} == "i386"
+.if ${MACHINE_CPUARCH} == "amd64" || ${MACHINE_CPUARCH} == "i386" || ${MACHINE_CPUARCH} == "aarch64"
 SRCS+=	amdgpu_acpi.c \
 	amdgpu_atpx_handler.c
 .endif
