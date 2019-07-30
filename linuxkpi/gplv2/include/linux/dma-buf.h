@@ -132,7 +132,13 @@ struct dma_buf_attachment {
 static inline void
 get_dma_buf(struct dma_buf *dmabuf)
 {
+#ifdef fhold
 	fhold(dmabuf->file);
+#else
+	while(!fhold(dmabuf->file)) {
+		pause("fhold", hz);
+	}
+#endif
 }
 
 
