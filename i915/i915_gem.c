@@ -2765,6 +2765,8 @@ i915_gem_object_pwrite_gtt(struct drm_i915_gem_object *obj,
 					  page, data);
 		if (err < 0)
 			return err;
+#else
+		put_page(page);
 #endif
 
 		if (unwritten)
