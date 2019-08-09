@@ -400,18 +400,18 @@ SRCS+=	device_if.h vnode_if.h bus_if.h pci_if.h device_if.h iicbus_if.h opt_drm.
 
 CFLAGS.gcc+= -Wno-redundant-decls -Wno-cast-qual -Wno-unused-but-set-variable
 .if ${MACHINE_CPUARCH} == "powerpc"
-CFLAGS.dcn_calcs.c= -maltivec -mhard-float -mfull-toc
-CFLAGS.dcn_calc_auto.c= -maltivec -mhard-float -mfull-toc
-CFLAGS.dcn_calc_math.c= -maltivec -mhard-float -mfull-toc
+CFLAGS.dcn_calcs.c= -maltivec -mhard-float
+CFLAGS.dcn_calc_auto.c= -maltivec -mhard-float
+CFLAGS.dcn_calc_math.c= -maltivec -mhard-float
 
-CFLAGS.display_mode_vba.c= -maltivec -mhard-float -mfull-toc
-CFLAGS.display_mode_lib.c= -maltivec -mhard-float -mfull-toc
-CFLAGS.display_pipe_clocks.c= -maltivec -mhard-float -mfull-toc
-CFLAGS.display_rq_dlg_calc.c= -maltivec -mhard-float -mfull-toc
-CFLAGS.dml1_display_rq_dlg_calc.c= -maltivec -mhard-float -mfull-toc
-CFLAGS.display_rq_dlg_helpers.c= -maltivec -mhard-float -mfull-toc
-CFLAGS.soc_bounding_box.c= -maltivec -mhard-float -mfull-toc
-CFLAGS.dml_common_defs.c= -maltivec -mhard-float -mfull-toc
+CFLAGS.display_mode_vba.c= -maltivec -mhard-float
+CFLAGS.display_mode_lib.c= -maltivec -mhard-float
+CFLAGS.display_pipe_clocks.c= -maltivec -mhard-float
+CFLAGS.display_rq_dlg_calc.c= -maltivec -mhard-float
+CFLAGS.dml1_display_rq_dlg_calc.c= -maltivec -mhard-float
+CFLAGS.display_rq_dlg_helpers.c= -maltivec -mhard-float
+CFLAGS.soc_bounding_box.c= -maltivec -mhard-float
+CFLAGS.dml_common_defs.c= -maltivec -mhard-float
 .else
 CFLAGS.dcn_calcs.c= -msse -mstack-alignment=4
 CFLAGS.dcn_calc_auto.c= -msse -mstack-alignment=4
