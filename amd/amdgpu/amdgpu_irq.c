@@ -37,8 +37,6 @@
 #include <linux/pm_runtime.h>
 
 #define AMDGPU_WAIT_IDLE_TIMEOUT 200
-#define pci_enable_msi linux_pci_enable_msi
-#define pci_disable_msi linux_pci_disable_msi
 
 /*
  * Handle hotplug events outside the interrupt handler proper.
