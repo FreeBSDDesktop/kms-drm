@@ -2491,10 +2491,11 @@ void __i915_gem_object_invalidate(struct drm_i915_gem_object *obj)
 
 #ifndef __linux__
 	mapping = obj->base.filp->f_shmem;
+	invalidate_mapping_pages(mapping, 0, (unsigned long)-1);
 #else
 	mapping = obj->base.filp->f_mapping,
-#endif
 	invalidate_mapping_pages(mapping, 0, (loff_t)-1);
+#endif
 }
 
 /*
