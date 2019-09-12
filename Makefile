@@ -17,7 +17,6 @@ OSVERSION!=	awk '/^\#define[[:blank:]]__FreeBSD_version/ {print $$3}' < ${SYSDIR
 SUBDIR=	linuxkpi	\
 	ttm		\
 	drm		\
-	${_dummygfx}	\
 	${_vboxvideo}	\
 	${_vmwgfx}	\
 	${_i915}	\
@@ -30,10 +29,6 @@ _vmwgfx =	vmwgfx
 .if ${OSVERSION} >= 1300033 || (${OSVERSION} >= 1200514 && ${OSVERSION} < 1300000)
 _vboxvideo =	vboxvideo
 .endif
-.endif
-
-.if defined(DUMMYGFX)
-_dummygfx = dummygfx
 .endif
 
 .include <bsd.subdir.mk>
