@@ -15,6 +15,7 @@ OSVERSION!=	awk '/^\#define[[:blank:]]__FreeBSD_version/ {print $$3}' < ${SYSDIR
 .endif
 
 SUBDIR=	linuxkpi	\
+	lindebugfs	\
 	ttm		\
 	drm		\
 	${_vboxvideo}	\
