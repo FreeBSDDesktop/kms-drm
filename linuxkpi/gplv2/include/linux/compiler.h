@@ -38,5 +38,10 @@
 
 #define	unreachable()	__unreachable()
 
+// Changed in base linuxkpi in 13.0-CURRENT
+#ifdef __deprecated
+#undef __deprecated
+#endif
+#define	__deprecated
 
 #endif /* _LINUX_GPLV2_COMPILER_H_ */
