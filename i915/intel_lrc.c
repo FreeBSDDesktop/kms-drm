@@ -1107,6 +1107,7 @@ static int gen9_init_indirectctx_bb(struct intel_engine_cs *engine,
 {
 	int ret;
 	struct drm_i915_private *dev_priv = engine->i915;
+	uint32_t scratch_addr;
 	uint32_t index = wa_ctx_start(wa_ctx, *offset, CACHELINE_DWORDS);
 
 	/* WaDisableCtxRestoreArbitration:bxt */
@@ -1118,6 +1119,19 @@ static int gen9_init_indirectctx_bb(struct intel_engine_cs *engine,
 	if (ret < 0)
 		return ret;
 	index = ret;
+
+	/* WaClearSlmSpaceAtContextSwitch:skl,bxt,kbl */
+	scratch_addr = i915_ggtt_offset(engine->scratch) + 2 * CACHELINE_BYTES;
+
+	wa_ctx_emit(batch, index, GFX_OP_PIPE_CONTROL(6));
+	wa_ctx_emit(batch, index, (PIPE_CONTROL_FLUSH_L3 |
+				   PIPE_CONTROL_GLOBAL_GTT_IVB |
+				   PIPE_CONTROL_CS_STALL |
+				   PIPE_CONTROL_QW_WRITE));
+	wa_ctx_emit(batch, index, scratch_addr);
+	wa_ctx_emit(batch, index, 0);
+	wa_ctx_emit(batch, index, 0);
+	wa_ctx_emit(batch, index, 0);
 
 	/* WaDisableGatherAtSetShaderCommonSlice:skl,bxt,kbl */
 	wa_ctx_emit(batch, index, MI_LOAD_REGISTER_IMM(1));
