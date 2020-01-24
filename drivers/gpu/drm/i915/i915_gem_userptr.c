@@ -495,14 +495,6 @@ __i915_gem_userptr_set_active(struct drm_i915_gem_object *obj,
 	return ret;
 }
 
-/* originally from linux's mm.h */
-static inline bool
-mmget_not_zero(struct mm_struct *mm)
-{
-        /* mm_users is the number of things using this real address space */
-        return atomic_inc_not_zero(&mm->mm_users);
-}
-
 static void
 __i915_gem_userptr_get_pages_worker(struct work_struct *_work)
 {
