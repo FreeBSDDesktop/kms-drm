@@ -46,9 +46,6 @@ static inline unsigned pagevec_space(struct pagevec *pvec)
  */
 static inline unsigned pagevec_add(struct pagevec *pvec, struct page *page)
 {
-#if __FreeBSD_version < 1300031
-	get_page(page); // fix to wire_count = 0 panic at release
-#endif
 	pvec->pages[pvec->nr++] = page;
 	return pagevec_space(pvec);
 }
