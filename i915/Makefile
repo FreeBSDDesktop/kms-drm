@@ -166,6 +166,7 @@ SRCS	+=			\
 	fb_if.h			\
 	device_if.h		\
 	pci_if.h		\
+	pci_iov_if.h		\
 	vnode_if.h
 
 .include <bsd.kmod.mk>
