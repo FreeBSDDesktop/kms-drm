@@ -47,6 +47,9 @@
 #include <linux/reservation.h>
 #include <linux/shmem_fs.h>
 #include <linux/typecheck.h>
+#ifndef __linux__
+#include <linux/ratelimit.h>
+#endif
 
 #include <drm/intel-gtt.h>
 #include <drm/drm_legacy.h> /* for struct drm_dma_handle */
