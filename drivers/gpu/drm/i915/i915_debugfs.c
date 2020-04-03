@@ -5177,7 +5177,9 @@ static int i915_dsc_fec_support_show(struct seq_file *m, void *data)
 		crtc_state = to_intel_crtc_state(crtc->state);
 		seq_printf(m, "DSC_Enabled: %s\n",
 			   yesno(crtc_state->dsc_params.compression_enable));
+#ifdef __linux__
 		if (intel_dp->dsc_dpcd)
+#endif
 			seq_printf(m, "DSC_Sink_Support: %s\n",
 				   yesno(drm_dp_sink_supports_dsc(intel_dp->dsc_dpcd)));
 		if (!intel_dp_is_edp(intel_dp))
