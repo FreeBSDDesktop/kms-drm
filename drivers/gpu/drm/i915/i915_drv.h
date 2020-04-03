@@ -3297,7 +3297,8 @@ int intel_engine_cmd_parser(struct intel_engine_cs *engine,
 			    struct drm_i915_gem_object *batch_obj,
 			    struct drm_i915_gem_object *shadow_batch_obj,
 			    u32 batch_start_offset,
-			    u32 batch_len);
+			    u32 batch_len,
+			    bool is_master);
 
 /* i915_perf.c */
 #ifdef CONFIG_I915_PERF // Not yet. i915_perf.c opens a can of worms...
