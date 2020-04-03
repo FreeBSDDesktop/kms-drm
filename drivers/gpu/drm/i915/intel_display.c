@@ -15454,7 +15454,7 @@ static bool has_bogus_dpll_config(const struct intel_crtc_state *crtc_state)
 	 * without several WARNs, but for now let's take the easy
 	 * road.
 	 */
-	return IS_GEN6(dev_priv) &&
+	return IS_GEN(dev_priv, 6) &&
 		crtc_state->base.active &&
 		crtc_state->shared_dpll &&
 		crtc_state->port_clock == 0;
