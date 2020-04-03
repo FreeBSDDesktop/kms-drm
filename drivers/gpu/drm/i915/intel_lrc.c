@@ -758,8 +758,8 @@ execlists_cancel_port_requests(struct intel_engine_execlists * const execlists)
 static inline void
 invalidate_csb_entries(const u32 *first, const u32 *last)
 {
-	clflush((void *)first);
-	clflush((void *)last);
+	clflush((u_long)first);
+	clflush((u_long)last);
 }
 
 static void reset_csb_pointers(struct intel_engine_execlists *execlists)
