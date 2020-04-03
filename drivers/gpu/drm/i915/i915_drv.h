@@ -2247,6 +2247,7 @@ intel_info(const struct drm_i915_private *dev_priv)
 	GENMASK((e) != GEN_FOREVER ? (e) - 1 : BITS_PER_LONG - 1, \
 		(s) != GEN_FOREVER ? (s) - 1 : 0) \
 )
+#define BUILD_BUG_ON_ZERO(e) (0)
 #endif
 
 /* Returns true if Gen is in inclusive range [Start, End] */
