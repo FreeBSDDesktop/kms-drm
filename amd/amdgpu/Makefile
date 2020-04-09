@@ -235,8 +235,6 @@ SRCS+=	amdgpu_dm.c \
 	amdgpu_dm_mst_types.c \
 	amdgpu_dm_pp_smu.c \
 	amdgpu_dm_services.c \
-	aux_engine.c \
-	aux_engine_dce110.c \
 	bios_parser.c \
 	bios_parser2.c \
 	bios_parser_common.c \
@@ -305,7 +303,6 @@ SRCS+=	amdgpu_dm.c \
 	dce_scl_filters.c \
 	dce_stream_encoder.c \
 	dce_transform.c \
-	engine_base.c \
 	fixpt31_32.c \
 	freesync.c \
 	gpio_base.c \
@@ -325,22 +322,6 @@ SRCS+=	amdgpu_dm.c \
 	hw_translate_dce80.c \
 	hw_translate_dcn10.c \
 	hw_translate_diag.c \
-	i2c_engine.c \
-	i2c_generic_hw_engine.c \
-	i2c_hw_engine.c \
-	i2c_hw_engine_dce110.c \
-	i2c_hw_engine_dce80.c \
-	i2c_sw_engine.c \
-	i2c_sw_engine_dce110.c \
-	i2c_sw_engine_dce80.c \
-	i2caux.c \
-	i2caux_dce100.c \
-	i2caux_dce110.c \
-	i2caux_dce112.c \
-	i2caux_dce120.c \
-	i2caux_dce80.c \
-	i2caux_dcn10.c \
-	i2caux_diag.c \
 	irq_service.c \
 	irq_service_dce110.c \
 	irq_service_dce120.c \
