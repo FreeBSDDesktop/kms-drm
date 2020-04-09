@@ -5,8 +5,8 @@
 #include "amdgpu.h"
 
 static inline void
-trace_amdgpu_iv(struct amdgpu_iv_entry *iv){
-	CTR1(KTR_DRM, "amdgpu_iv %p", iv);
+trace_amdgpu_iv(long ih, struct amdgpu_iv_entry *iv){
+	CTR2(KTR_DRM, "amdgpu_iv %p ih %lx", iv, ih);
 }
 
 static inline void
