@@ -430,16 +430,18 @@ SRCS+=	device_if.h vnode_if.h bus_if.h pci_if.h pci_iov_if.h device_if.h iicbus_
 
 CFLAGS.gcc+= -Wno-redundant-decls -Wno-unused-but-set-variable
 
-CFLAGS.dcn_calcs.c= -msse -mstack-alignment=4
-CFLAGS.dcn_calc_auto.c= -msse -mstack-alignment=4
-CFLAGS.dcn_calc_math.c= -msse -mstack-alignment=4 -Wno-tautological-compare
+CFLAGS.bw_fixed.c= -msse -msse2 -mstack-alignment=4
+CFLAGS.custom_float.c= -msse -msse2 -mstack-alignment=4
+CFLAGS.dcn_calcs.c= -msse -msse2 -mstack-alignment=4
+CFLAGS.dcn_calc_auto.c= -msse -msse2 -mstack-alignment=4
+CFLAGS.dcn_calc_math.c= -msse -msse2 -mstack-alignment=4 -Wno-tautological-compare
 
-CFLAGS.display_mode_lib.c= -msse -mstack-alignment=4
-CFLAGS.display_pipe_clocks.c= -msse -mstack-alignment=4
-CFLAGS.dml1_display_rq_dlg_calc.c= -msse -mstack-alignment=4
-CFLAGS.display_rq_dlg_helpers.c= -msse -mstack-alignment=4
-CFLAGS.soc_bounding_box.c= -msse -mstack-alignment=4
-CFLAGS.dml_common_defs.c= -msse -mstack-alignment=4
+CFLAGS.display_mode_lib.c= -msse -msse2 -mstack-alignment=4
+CFLAGS.display_pipe_clocks.c= -msse -msse2 -mstack-alignment=4
+CFLAGS.dml1_display_rq_dlg_calc.c= -msse -msse2 -mstack-alignment=4
+CFLAGS.display_rq_dlg_helpers.c= -msse -msse2 -mstack-alignment=4
+CFLAGS.soc_bounding_box.c= -msse -msse2 -mstack-alignment=4
+CFLAGS.dml_common_defs.c= -msse -msse2 -mstack-alignment=4
 
 
 .if ${MACHINE_CPUARCH} != "powerpc"
@@ -538,6 +540,7 @@ CWARNFLAGS.dce_i2c_sw.c=	-Wno-missing-prototypes
 CWARNFLAGS.dce_transform.c=	-Wno-enum-conversion
 CWARNFLAGS.dcn10_dpp.c=		-Wno-missing-prototypes
 CWARNFLAGS.dcn10_dpp_dscl.c=	-Wno-missing-prototypes
+CWARNFLAGS.dcn10_hubp.c=-Wno-missing-prototypes
 CWARNFLAGS.dcn10_hw_sequencer.c=-Wno-missing-prototypes -Wno-missing-braces
 CWARNFLAGS.dcn10_hw_sequencer_debug.c= -Wno-missing-braces
 CWARNFLAGS.dcn10_opp.c=		-Wno-missing-prototypes
@@ -579,6 +582,7 @@ CWARNFLAGS.polaris10_hwmgr.c=	-Wno-missing-prototypes  -Wno-unused-const-variabl
 CWARNFLAGS.polaris10_powertune.c=	-Wno-missing-prototypes
 CWARNFLAGS.polaris10_smumgr.c=	-Wno-missing-prototypes
 CWARNFLAGS.polaris10_thermal.c=	-Wno-missing-prototypes
+CWARNFLAGS.power_helpers.c=	-Wno-missing-prototypes
 CWARNFLAGS.ppatomctrl.c=	-Wno-missing-prototypes -Wno-missing-braces
 CWARNFLAGS.ppatomfwctrl.c=	-Wno-missing-prototypes -Wno-enum-conversion
 CWARNFLAGS.processpptables.c=	-Wno-missing-prototypes -Wno-sometimes-uninitialized
