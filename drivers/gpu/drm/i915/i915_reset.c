@@ -1162,8 +1162,8 @@ static void i915_reset_device(struct drm_i915_private *i915,
 			      u32 engine_mask,
 			      const char *reason)
 {
-	struct i915_gpu_error *error = &i915->gpu_error;
 #ifdef __linux__
+	struct i915_gpu_error *error = &i915->gpu_error;
 	struct kobject *kobj = &i915->drm.primary->kdev->kobj;
 	char *error_event[] = { I915_ERROR_UEVENT "=1", NULL };
 	char *reset_event[] = { I915_RESET_UEVENT "=1", NULL };
