@@ -144,8 +144,6 @@ SRCS+=	amdgpu_afmt.c \
 	atombios_dp.c \
 	atombios_encoders.c \
 	atombios_i2c.c \
-	ci_dpm.c \
-	ci_smc.c \
 	cik.c \
 	cik_ih.c \
 	cik_sdma.c \
