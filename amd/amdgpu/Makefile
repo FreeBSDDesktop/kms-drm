@@ -345,6 +345,7 @@ SRCS+=	chash.c
 # powerplay
 SRCS+=	amd_powerplay.c \
 	ci_smumgr.c \
+	common_baco.c \
 	fiji_smumgr.c \
 	hardwaremanager.c \
 	hwmgr.c \
@@ -370,6 +371,7 @@ SRCS+=	amd_powerplay.c \
 	smu_helper.c \
 	smumgr.c \
 	tonga_smumgr.c \
+	vega10_baco.c \
 	vega10_hwmgr.c \
 	vega10_powertune.c \
 	vega10_processpptables.c \
@@ -380,6 +382,7 @@ SRCS+=	amd_powerplay.c \
 	vega12_processpptables.c \
 	vega12_smumgr.c \
 	vega12_thermal.c \
+	vega20_baco.c \
 	vega20_hwmgr.c \
 	vega20_powertune.c \
 	vega20_processpptables.c \
