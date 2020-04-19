@@ -241,22 +241,7 @@ void intel_engine_init_breadcrumbs(struct intel_engine_cs *engine)
 
 #ifdef __linux__
 	init_irq_work(&b->irq_work, signal_irq_work);
-<<<<<<< HEAD
 #endif
-
-	timer_setup(&b->fake_irq, intel_breadcrumbs_fake_irq, 0);
-	timer_setup(&b->hangcheck, intel_breadcrumbs_hangcheck, 0);
-}
-
-static void cancel_fake_irq(struct intel_engine_cs *engine)
-{
-	struct intel_breadcrumbs *b = &engine->breadcrumbs;
-
-	del_timer_sync(&b->fake_irq); /* may queue b->hangcheck */
-	del_timer_sync(&b->hangcheck);
-	clear_bit(engine->id, &engine->i915->gpu_error.missed_irq_rings);
-=======
->>>>>>> drm/i915: Drop fake breadcrumb irq
 }
 
 void intel_engine_reset_breadcrumbs(struct intel_engine_cs *engine)
