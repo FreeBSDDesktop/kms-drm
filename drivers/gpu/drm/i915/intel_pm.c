@@ -40,6 +40,7 @@
 #include <asm/atomic.h>
 #else
 #include "../../../platform/x86/intel_ips.h"
+#endif
 
 /**
  * DOC: RC6

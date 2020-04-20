@@ -545,6 +545,7 @@ int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
 	if (unlikely((flags & DRM_ROOT_ONLY) && !capable(CAP_SYS_ADMIN))) {
 		DRM_DEBUG("(unlikely((flags & DRM_ROOT_ONLY) && !capable(CAP_SYS_ADMIN)))");
 		return -EACCES;
+	}
 
 	/* AUTH is only for master ... */
 	if (unlikely((flags & DRM_AUTH) && drm_is_primary_client(file_priv))) {

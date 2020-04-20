@@ -137,12 +137,12 @@ void
 linux_intel_gtt_insert_sg_entries(struct sg_table *st, unsigned int pg_start,
     unsigned int flags)
 {
-	struct sg_page_iter sg_iter;
+	struct sg_dma_page_iter sg_iter;
 	unsigned int i;
 	vm_paddr_t addr;
 
 	i = 0;
-	for_each_sg_page(st->sgl, &sg_iter, st->nents, 0) {
+	for_each_sg_dma_page(st->sgl, &sg_iter, st->nents, 0) {
 		addr = sg_page_iter_dma_address(&sg_iter);
 		intel_gtt_install_pte(pg_start + i, addr, flags);
 		++i;

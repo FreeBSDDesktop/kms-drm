@@ -226,6 +226,8 @@ component_add(struct device *dev, const struct component_ops *ops)
 	return (ret < 0 ? ret : 0);
 }
 
+#define component_add_typed(dev, ops, subcomp) component_add(dev, ops)
+
 static inline void
 component_del(struct device *dev, const struct component_ops *ops)
 {
