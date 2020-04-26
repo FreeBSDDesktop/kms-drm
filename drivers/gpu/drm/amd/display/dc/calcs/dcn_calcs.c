@@ -1372,7 +1372,11 @@ void dcn_bw_update_from_pplib(struct dc *dc)
 	res = dm_pp_get_clock_levels_by_type_with_voltage(
 			ctx, DM_PP_CLOCK_TYPE_FCLK, &fclks);
 
+#ifdef __linux__
 	kernel_fpu_begin();
+#else
+	struct fpu_kern_ctx *_bsd_fpu_ctx = bsd_kernel_fpu_begin();
+#endif
 
 	if (res)
 		res = verify_clock_values(&fclks);
@@ -1392,7 +1396,11 @@ void dcn_bw_update_from_pplib(struct dc *dc)
 	} else
 		BREAK_TO_DEBUGGER();
 
+#ifdef __linux__
 	kernel_fpu_end();
+#else
+	bsd_kernel_fpu_end(_bsd_fpu_ctx);
+#endif
 
 	res = dm_pp_get_clock_levels_by_type_with_voltage(
 			ctx, DM_PP_CLOCK_TYPE_DCFCLK, &dcfclks);
