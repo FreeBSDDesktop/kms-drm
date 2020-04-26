@@ -2,6 +2,7 @@
 #include <sys/kernel.h>
 
 #include <machine/specialreg.h>
+#include <sys/pcpu.h>
 #include <machine/md_var.h>
 
 #include <linux/bitops.h>
