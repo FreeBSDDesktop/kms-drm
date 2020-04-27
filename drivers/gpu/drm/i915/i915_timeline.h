@@ -102,9 +102,8 @@ static inline void
 i915_timeline_set_subclass(struct i915_timeline *timeline,
 			   unsigned int subclass)
 {
-#ifdef __linux__
 	lockdep_set_subclass(&timeline->lock, subclass);
-#endif
+
 	/*
 	 * Due to an interesting quirk in lockdep's internal debug tracking,
 	 * after setting a subclass we must ensure the lock is used. Otherwise,

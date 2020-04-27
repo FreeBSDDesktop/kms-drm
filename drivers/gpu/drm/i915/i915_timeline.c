@@ -80,7 +80,8 @@ hwsp_alloc(struct i915_timeline *timeline, unsigned int *cacheline)
 #ifdef __linux__
 	*cacheline = __ffs64(hwsp->free_bitmap);
 #else
-	*cacheline = __builtin_ffsll(hwsp->free_bitmap);
+	/* BSDFIXME: define __ffs64 in /usr/src/sys/compat/linuxkpi/common/include/linux/bitops.h */
+	*cacheline = __builtin_ffsll(hwsp->free_bitmap) - 1;
 #endif
 	hwsp->free_bitmap &= ~BIT_ULL(*cacheline);
 	if (!hwsp->free_bitmap)
