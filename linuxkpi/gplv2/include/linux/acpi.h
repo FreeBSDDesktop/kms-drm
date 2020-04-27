@@ -40,8 +40,13 @@ static inline acpi_handle acpi_device_handle(struct acpi_device *adev)
 }
 
 #define ACPI_COMPANION(dev)		to_acpi_device_node((dev)->fwnode)
+#if 0
 #define ACPI_HANDLE_GET(dev)	acpi_device_handle(ACPI_COMPANION(dev))
 #define ACPI_HANDLE(dev)	acpi_device_handle(ACPI_COMPANION(dev))
+#else
+#define ACPI_HANDLE_GET(dev)	acpi_bsd_get_handle(dev)
+#define ACPI_HANDLE(dev)	acpi_bsd_get_handle(dev)
+#endif
 
 #define ACPI_VIDEO_OUTPUT_SWITCHING			0x0001
 #define ACPI_VIDEO_DEVICE_POSTING			0x0002
