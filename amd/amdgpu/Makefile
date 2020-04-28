@@ -430,18 +430,24 @@ SRCS+=	device_if.h vnode_if.h bus_if.h pci_if.h pci_iov_if.h device_if.h iicbus_
 
 CFLAGS.gcc+= -Wno-redundant-decls -Wno-unused-but-set-variable
 
-CFLAGS.bw_fixed.c= -msse -msse2 -mstack-alignment=4
-CFLAGS.custom_float.c= -msse -msse2 -mstack-alignment=4
-CFLAGS.dcn_calcs.c= -msse -msse2 -mstack-alignment=4
-CFLAGS.dcn_calc_auto.c= -msse -msse2 -mstack-alignment=4
-CFLAGS.dcn_calc_math.c= -msse -msse2 -mstack-alignment=4 -Wno-tautological-compare
+.if ${MACHINE_CPUARCH} == "amd64" || ${MACHINE_CPUARCH} == "i386"
+SSEFLAGS=-msse
+.else
+SSEFLAGS=
+.endif
 
-CFLAGS.display_mode_lib.c= -msse -msse2 -mstack-alignment=4
-CFLAGS.display_pipe_clocks.c= -msse -msse2 -mstack-alignment=4
-CFLAGS.dml1_display_rq_dlg_calc.c= -msse -msse2 -mstack-alignment=4
-CFLAGS.display_rq_dlg_helpers.c= -msse -msse2 -mstack-alignment=4
-CFLAGS.soc_bounding_box.c= -msse -msse2 -mstack-alignment=4
-CFLAGS.dml_common_defs.c= -msse -msse2 -mstack-alignment=4
+CFLAGS.bw_fixed.c= ${SSEFLAGS} -mstack-alignment=4
+CFLAGS.custom_float.c= ${SSEFLAGS} -mstack-alignment=4
+CFLAGS.dcn_calcs.c= ${SSEFLAGS} -mstack-alignment=4
+CFLAGS.dcn_calc_auto.c= ${SSEFLAGS} -mstack-alignment=4
+CFLAGS.dcn_calc_math.c= ${SSEFLAGS} -mstack-alignment=4 -Wno-tautological-compare
+
+CFLAGS.display_mode_lib.c= ${SSEFLAGS} -mstack-alignment=4
+CFLAGS.display_pipe_clocks.c= ${SSEFLAGS} -mstack-alignment=4
+CFLAGS.dml1_display_rq_dlg_calc.c= ${SSEFLAGS} -mstack-alignment=4
+CFLAGS.display_rq_dlg_helpers.c= ${SSEFLAGS} -mstack-alignment=4
+CFLAGS.soc_bounding_box.c= ${SSEFLAGS} -mstack-alignment=4
+CFLAGS.dml_common_defs.c= ${SSEFLAGS} -mstack-alignment=4
 
 
 .if ${MACHINE_CPUARCH} != "powerpc"
