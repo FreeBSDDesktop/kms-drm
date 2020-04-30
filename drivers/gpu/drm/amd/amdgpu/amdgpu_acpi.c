@@ -728,6 +728,7 @@ int amdgpu_acpi_pcie_performance_request(struct amdgpu_device *adev,
 	return 0;
 }
 
+#ifdef __linux__
 /**
  * amdgpu_acpi_event - handle notify events
  *
@@ -758,6 +759,32 @@ static int amdgpu_acpi_event(struct notifier_block *nb,
 	/* Check for pending SBIOS requests */
 	return amdgpu_atif_handler(adev, entry);
 }
+#else
+static void amdgpu_acpi_event(acpi_handle handle, UINT32 notify, void *context)
+{
+	struct amdgpu_device *adev = context;
+	struct acpi_bus_event entry = { 0 };
+
+	DRM_DEBUG_DRIVER("notify 0x%02x\n", notify);
+	entry.type = notify;
+	strcpy(entry.device_class, ACPI_VIDEO_CLASS);
+
+	/* Check for pending SBIOS requests */
+	(void)amdgpu_atif_handler(adev, &entry);
+}
+
+static void amdgpu_power_event(void *context)
+{
+	struct amdgpu_device *adev = context;
+
+	if (power_supply_is_system_supplied() > 0)
+		DRM_DEBUG_DRIVER("pm: AC\n");
+	else
+		DRM_DEBUG_DRIVER("pm: DC\n");
+
+	amdgpu_pm_acpi_event_handler(adev);
+}
+#endif
 
 /* Call all ACPI methods here */
 /**
@@ -858,8 +885,20 @@ int amdgpu_acpi_init(struct amdgpu_device *adev)
 	}
 
 out:
+#ifdef __linux__
 	adev->acpi_nb.notifier_call = amdgpu_acpi_event;
 	register_acpi_notifier(&adev->acpi_nb);
+#else
+	{
+		acpi_status status;
+
+		status = AcpiInstallNotifyHandler(handle, ACPI_DEVICE_NOTIFY,
+				amdgpu_acpi_event, adev);
+		DRM_DEBUG_DRIVER("AcpiInstallNotifyHandler: %d\n", status);
+		adev->power_evh = EVENTHANDLER_REGISTER(power_profile_change,
+				amdgpu_power_event, adev, 0);
+	}
+#endif
 
 	return ret;
 }
@@ -885,6 +924,20 @@ void amdgpu_acpi_get_backlight_caps(struct amdgpu_device *adev,
  */
 void amdgpu_acpi_fini(struct amdgpu_device *adev)
 {
+#ifdef __linux__
 	unregister_acpi_notifier(&adev->acpi_nb);
+#else
+	acpi_handle handle;
+
+	handle = ACPI_HANDLE(&adev->pdev->dev);
+	if (handle) {
+		AcpiRemoveNotifyHandler(handle, ACPI_DEVICE_NOTIFY,
+				amdgpu_acpi_event);
+	}
+	if (adev->power_evh) {
+		EVENTHANDLER_DEREGISTER(power_profile_change,
+				adev->power_evh);
+	}
+#endif
 	kfree(adev->atif);
 }

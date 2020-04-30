@@ -786,6 +786,7 @@ struct amdgpu_device {
 	int				rio_rid;
 	int				rio_type;
 	struct resource			*rio_res;
+	eventhandler_tag		power_evh;
 #endif
 	struct amdgpu_doorbell		doorbell;
 
