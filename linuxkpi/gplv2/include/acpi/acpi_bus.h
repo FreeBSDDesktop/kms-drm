@@ -653,4 +653,6 @@ static inline int unregister_acpi_bus_type(void *bus) { return 0; }
 
 #endif				/* CONFIG_ACPI */
 
+acpi_handle acpi_bsd_get_handle(struct device *dev);
+
 #endif /*__ACPI_BUS_H__*/
