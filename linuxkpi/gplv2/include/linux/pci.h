@@ -172,6 +172,7 @@ pcie_get_readrq(struct pci_dev *dev)
 	return 128 << ((ctl & PCI_EXP_DEVCTL_READRQ) >> 12);
 }
 
+#if __FreeBSD_version < 1300094
 static inline void *
 pci_iomap(struct pci_dev *dev, int bar, unsigned long maxlen)
 {
@@ -184,5 +185,6 @@ pci_iounmap(struct pci_dev *dev, void *addr)
 {
 	/* NOP */
 }
+#endif
 
 #endif /* _LINUX_GPLV2_PCI_H_ */
