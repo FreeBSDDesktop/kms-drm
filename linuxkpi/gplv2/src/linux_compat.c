@@ -1,6 +1,7 @@
 #include <sys/param.h>
 #include <sys/kernel.h>
 
+#include <sys/pcpu.h>
 #include <machine/specialreg.h>
 #include <machine/md_var.h>
 
