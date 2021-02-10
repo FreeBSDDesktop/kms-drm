@@ -1,6 +1,9 @@
 # kms-drm
 The DRM part of the linuxkpi-based KMS
 
+This code is only used on FreeBSD 11 and 12.
+New development and support for FreeBSD 13 and later is available at https://github.com/freebsd/drm-kmod .
+
 ## Contributing
 
 ### Linux source code
